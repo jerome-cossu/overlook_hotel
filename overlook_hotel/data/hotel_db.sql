@@ -121,7 +121,8 @@ ALTER SEQUENCE public.bookings_booking_id_seq OWNED BY public.bookings.booking_i
 CREATE TABLE public.events (
     event_id integer NOT NULL,
     name character varying(50) NOT NULL,
-    description character varying(500)
+    description character varying(500),
+    max_guests integer NOT NULL
 );
 
 
