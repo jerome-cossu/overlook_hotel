@@ -270,6 +270,7 @@ CREATE TABLE public.rooms (
     room_number integer NOT NULL,
     guest integer NOT NULL,
     occupency boolean NOT NULL,
+    picture character varying(255),
     features character varying(100) NOT NULL,
     price real NOT NULL
 );
