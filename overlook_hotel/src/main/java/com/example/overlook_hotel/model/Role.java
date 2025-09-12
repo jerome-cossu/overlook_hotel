@@ -1,24 +1,22 @@
+package com.example.overlook_hotel.model;
+
 import jakarta.persistence.*;
 import lombok.Data;
-import scala.Int;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
 
 @Entity
-@Table(name = "roles") 
+@Table(name = "roles")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Role {
 
-public class Role{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
-
-    @OneToMany(mappedBy = "user")
-
-    public Role() {}
-
-    public Role(String name) {
-        this.name = name;
-    }
 }

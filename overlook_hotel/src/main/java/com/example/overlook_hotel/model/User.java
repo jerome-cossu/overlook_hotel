@@ -1,21 +1,32 @@
+package com.example.overlook_hotel.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 import lombok.Data;
-import scala.Int;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
 
 @Entity
-@Table(name = "users") 
+@Table(name = "users")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class User {
 
-public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "user_id")
+    private Long id;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(name = "first_name", nullable = false)
+    @JsonProperty("first_name")
+    private String firstName;
 
-    @Column(nullable = false)
-    private String last_name;
+    @Column(name = "last_name", nullable = false)
+    @JsonProperty("last_name")
+    private String lastName;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -23,20 +34,11 @@ public class User{
     @Column(nullable = false)
     private String password;
 
-    @Column
-    private int loyalty_points;
+    @Column(name = "loyalty_points", nullable = true)
+    @JsonProperty("loyalty_points")
+    private int loyaltyPoints;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
-
-    public User() {}
-
-    public User(String name, String last_name, String email, String password, Role role) {
-        this.name = name;
-        this.last_name = last_name;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
 }
