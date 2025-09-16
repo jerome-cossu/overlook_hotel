@@ -18,22 +18,22 @@ public class RoomController {
     }
 
     @GetMapping("/{id}")
-    public Room getRoomById(@PathVariable int id) {
+    public Room getRoomById(@PathVariable Long id) {
         return roomService.getRoomById(id);
     }
 
     @PostMapping
-    public Room createUser(@RequestBody Room room) {
+    public Room createRoom(@RequestBody Room room) {
         return roomService.createRoom(room);
     }
 
     @PutMapping("/{id}")
-    public Room updateRoom(@PathVariable int id, @RequestBody Room room) {
+    public Room updateRoom(@PathVariable Long id, @RequestBody Room room) {
         return roomService.updateRoom(id, room);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteRoom(@PathVariable int id) {
+    public void deleteRoom(@PathVariable Long id) {
         roomService.deleteRoom(id);
     }
 }

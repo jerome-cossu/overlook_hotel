@@ -21,6 +21,7 @@ public class FeatureService {
     }
 
     public Feature createFeature(Feature feature) {
+        feature.setId(null);
         return featureRepository.save(feature);
     }
 

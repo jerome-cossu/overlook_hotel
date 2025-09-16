@@ -15,8 +15,7 @@ import java.util.Set;
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "room_id")
-    private int id;
+    private Long id;
 
     @Column(nullable = false, unique = true, name = "room_number")
     private int roomNumber;
@@ -26,6 +25,9 @@ public class Room {
 
     @Column(nullable = false)
     private boolean occupancy;
+
+    @Column(nullable = true)
+    private String picture;
 
     @ManyToMany
     @JoinTable(
