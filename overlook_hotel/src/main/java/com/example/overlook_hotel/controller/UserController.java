@@ -1,3 +1,6 @@
+package com.example.overlook_hotel.controller;
+import com.example.overlook_hotel.model.User;
+import com.example.overlook_hotel.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
