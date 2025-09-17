@@ -25,8 +25,8 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(@ModelAttribute User user, Model model) {
-        if (userService.findByUsername(user.getUsername()) != null) {
-            model.addAttribute("error", "Username already exists");
+        if (userService.findByEmail(user.getEmail()) != null) {
+            model.addAttribute("error", "Email already exists");
             return "register";
         }
         userService.registerUser(user);
