@@ -1,4 +1,5 @@
-# EN: Sprint plan (3 weeks, 3 devs) (français ci-dessous)
+# EN: Sprint plan (3 weeks, 3 devs) 
+### (français ci-dessous)
 
 ## Week 1 — Core backend, auth, DB, basic frontend scaffolding
 - Tasks (parallel):
@@ -20,7 +21,7 @@
     - Dev C: Analytics endpoints (occupancy, revenue, avg rating) + dashboard pages; QA, integration tests, Postman collection, finalize roles/permissions.
 - Deliverables: All major features present, basic analytics dashboard, automated notification stub, documentation and Postman collection.
 
-# FR : Plan Sprint (3 semaines, 3 dévs) (français ci-dessous)
+# FR : Plan Sprint (3 semaines, 3 dévs) 
 
 ## Semaine 1 — Backend principal, authentification, base de données, structure frontend de base
 
