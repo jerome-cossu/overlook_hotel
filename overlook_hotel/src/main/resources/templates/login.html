@@ -10,8 +10,8 @@
 <header>
     <h1>WELCOME TO THE OVERLOOK HOTEL</h1>
     <nav>
-        <a href="/">Home</a>
-        <a href="#">Room</a>
+        <a href="/home">Home</a>
+        <a href="/api/rooms">Room</a>
         <a href="#">Events</a>
         <a href="#">Facility</a>
         <a href="#">Booking</a>
@@ -31,9 +31,8 @@
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
 
-        <label class="show-password">
+        <label class="show-password" >Show Password
             <input type="checkbox" id="showPassword" onclick="togglePassword()">
-            Show Password
         </label>
 
         <button type="submit">Login</button>
