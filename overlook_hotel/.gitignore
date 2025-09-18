@@ -33,5 +33,5 @@ build/
 .vscode/
 
 ### environment-specific variables ###
-env.propeties
+env.properties
 .env
