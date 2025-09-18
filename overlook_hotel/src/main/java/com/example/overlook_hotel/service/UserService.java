@@ -5,6 +5,8 @@ import com.example.overlook_hotel.model.User;
 import com.example.overlook_hotel.repository.RoleRepository;
 import com.example.overlook_hotel.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -49,5 +52,17 @@ public class UserService {
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+    public User registerUser(User user) {
+        // Assign default role (e.g., "USER")
+        Role userRole = roleRepository.findByName("USER")
+            .orElseThrow(() -> new RuntimeException("Role USER not found"));
+        user.setRole(userRole);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }
