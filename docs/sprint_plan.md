@@ -3,9 +3,9 @@
 
 ## Week 1 — Core backend, auth, DB, basic frontend scaffolding
 - Tasks (parallel):
-    - Dev A: Project setup, Maven, Spring Boot, PostgreSQL config, entities & repositories.
-    - Dev B: Spring Security — JWT or session-based auth, role model (GUEST, EMPLOYEE, MANAGER), registration/login endpoints for customers.
-    - Dev C: Thymeleaf skeleton, login/registration pages (customer + manager), basic navigation, shared CSS.
+    - Jerome & Emmanuelle: Project setup, Maven, Spring Boot, PostgreSQL config, entities & repositories.
+    - Emmanuelle & Leila : Spring Security — JWT or session-based auth, role model (GUEST, EMPLOYEE, MANAGER), registration/login endpoints for customers.
+    - Jerome & Leila: Thymeleaf skeleton, login/registration pages (customer + manager), basic navigation, shared CSS.
 - Deliverables: DB schema implemented, registration/login flows working, basic Thymeleaf pages wired to backend.
 ## Week 2 — Rooms, bookings, customers, feedback, loyalty
 - Tasks:
@@ -26,9 +26,9 @@
 ## Semaine 1 — Backend principal, authentification, base de données, structure frontend de base
 
 - Tâches (en parallèle) :
-    - Dév A : configuration du projet, Maven, Spring Boot, configuration PostgreSQL, entités & répositories.
-    - Dév B : Spring Security — Authentification JWT ou basée sur les sessions, modèle de rôles (GUEST, EMPLOYEE, MANAGER), points de terminaison d'inscription/de connexion pour les clients.
-    - Dév C : squelette Thymeleaf, pages de connexion/d'inscription (client + gestionnaire), navigation de base, CSS partagé.
+    - Jerome & Emmanuelle : configuration du projet, Maven, Spring Boot, configuration PostgreSQL, entités & répositories.
+    - Emmanuelle & Leila : Spring Security — Authentification JWT ou basée sur les sessions, modèle de rôles (GUEST, EMPLOYEE, MANAGER), points de terminaison d'inscription/de connexion pour les clients.
+    - Jerome & Leila : squelette Thymeleaf, pages de connexion/d'inscription (client + gestionnaire), navigation de base, CSS partagé.
 - Livrables : schéma de base de données implémenté, flux d'inscription/de connexion fonctionnels, pages Thymeleaf de base connectées au backend.
 
 ## Semaine 2 — Chambres, réservations, clients, commentaires, fidélité
