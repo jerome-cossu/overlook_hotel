@@ -5,6 +5,8 @@ import com.example.overlook_hotel.model.User;
 import com.example.overlook_hotel.repository.RoleRepository;
 import com.example.overlook_hotel.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -13,12 +15,13 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    public User getUserById(int id) {
+    public User getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id " + id));
     }
@@ -31,7 +34,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User updateUser(int id, User userDetails) {
+    public User updateUser(Long id, User userDetails) {
         User user = getUserById(id);
 
         user.setFirstName(userDetails.getFirstName());
@@ -47,7 +50,19 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void deleteUser(int id) {
+    public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+    public User registerUser(User user) {
+        // Assign default role (e.g., "USER")
+        Role userRole = roleRepository.findByName("USER")
+            .orElseThrow(() -> new RuntimeException("Role USER not found"));
+        user.setRole(userRole);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }
