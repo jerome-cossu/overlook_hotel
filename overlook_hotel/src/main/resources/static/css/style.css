@@ -1,6 +1,6 @@
 /* Global */
 body {
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     margin: 0;
     padding: 0;
 }
@@ -58,10 +58,10 @@ nav a:hover {
 
 /* Banner */
 .banner {
-    background-image: url('https://cdn.blastness.biz/media/980/top/thumbs/full/DJI_20240501103624_0358_web_1.jpg');
+    background-image: url('https://www.terresdecharme.com/wp-content/uploads/2017/10/castel-monastero-hotel-italie.jpg');
     background-size: cover;
     background-position: center;
-    height: 600px;
+    height: 500px;
 }
 
 /* Sections */
@@ -96,6 +96,67 @@ nav a:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px #10826b;
 }
+
+/* Login Section */
+
+.login-section {
+    max-width: 400px;
+    margin: 50px auto;
+    text-align: left;
+}
+
+.login-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-section form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.login-section form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.login-section form button {
+    width: 106%;
+    padding: 12px;
+    background-color: #10826b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-section form button:hover {
+    background-color: #e7d01c;
+    color: #10826b;
+}
+
+/* Checkbox show password */
+.show-password {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333; /* optionnel : couleur du texte */
+}
+
+.show-password input[type="checkbox"] {
+    margin-right: 10px; /* espace entre la case et le texte */
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
 
 /* Footer */
 footer {
