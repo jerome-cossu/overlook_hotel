@@ -45,6 +45,6 @@ public class User {
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    @OneToMany(mappedBy = "user")  // relation inverse
+    @OneToMany(mappedBy = "user") 
     private List<Booking> bookings = new ArrayList<>();
 }

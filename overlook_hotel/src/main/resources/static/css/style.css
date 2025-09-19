@@ -1,0 +1,208 @@
+/* Global */
+body {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px 40px;
+    background-color: #10826b;
+    color: white;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 34px;
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    align-items: center;
+}
+
+nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #e7d01c;
+    transform: scale(1.1);
+}
+
+/* Login button */
+.login-btn {
+    margin-left: 20px;
+    padding: 8px 15px;
+    background-color: #ffffff;
+    color: #10826b;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background-color: #e7d01c;
+    color: #10826b;
+}
+
+/* Banner */
+.banner {
+    background-image: url('https://www.terresdecharme.com/wp-content/uploads/2017/10/castel-monastero-hotel-italie.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 500px;
+}
+
+/* Sections */
+.section {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.rooms {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.room {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    width: 250px;
+    transition: 0.3s;
+}
+
+.room img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.room:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 5px 15px #10826b;
+}
+
+/* Login Section */
+
+.login-section {
+    max-width: 400px;
+    margin: auto;
+    text-align: left;
+}
+
+.login-section h2 {
+    text-align: center;
+}
+
+.login-section form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.login-section form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.login-section form button {
+    width: 106%;
+    padding: 12px;
+    background-color: #10826b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-section form button:hover {
+    transform: scale(1.1);
+    background-color: #e7d01c;
+    color: #10826b;
+}
+
+/* Checkbox show password */
+.show-password {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.show-password input[type="checkbox"] {
+    margin-left: 20px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:hover {
+    transform: scale(1.1);
+}
+
+/* Rooms selection */
+.rooms-selection {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.room-choice {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    width: 250px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.room-choice img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.room-choice:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px #10826b;
+}
+
+.room-choice input[type="radio"] {
+    display: none; /* On masque le bouton radio */
+}
+
+.room-choice input[type="radio"]:checked + label {
+    border: 2px solid #e7d01c;
+}
+
+
+/* Footer */
+footer {
+    background-color: #10826b;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+}

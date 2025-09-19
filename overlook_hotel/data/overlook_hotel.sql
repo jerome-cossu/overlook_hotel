@@ -18,6 +18,18 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: occupancy_status; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.occupancy_status AS ENUM (
+    'free',
+    'occupied'
+);
+
+
+ALTER TYPE public.occupancy_status OWNER TO postgres;
+
+--
 -- Name: rating_enum; Type: TYPE; Schema: public; Owner: postgres
 --
 
@@ -37,13 +49,26 @@ ALTER TYPE public.rating_enum OWNER TO postgres;
 --
 
 CREATE TYPE public.role AS ENUM (
-    'custumer',
+    'customer',
     'employee',
     'manager'
 );
 
 
 ALTER TYPE public.role OWNER TO postgres;
+
+--
+-- Name: role_old; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.role_old AS ENUM (
+    'custumer',
+    'employee',
+    'manager'
+);
+
+
+ALTER TYPE public.role_old OWNER TO postgres;
 
 --
 -- Name: shift_name; Type: TYPE; Schema: public; Owner: postgres
@@ -121,8 +146,7 @@ ALTER SEQUENCE public.bookings_booking_id_seq OWNED BY public.bookings.booking_i
 CREATE TABLE public.events (
     event_id integer NOT NULL,
     name character varying(50) NOT NULL,
-    description character varying(500),
-    max_guests integer NOT NULL
+    description character varying(500)
 );
 
 
@@ -269,10 +293,9 @@ CREATE TABLE public.rooms (
     room_id integer NOT NULL,
     room_number integer NOT NULL,
     guest integer NOT NULL,
-    occupency boolean NOT NULL,
-    picture character varying(255),
     features character varying(100) NOT NULL,
-    price real NOT NULL
+    price real NOT NULL,
+    status public.occupancy_status DEFAULT 'free'::public.occupancy_status
 );
 
 
@@ -415,7 +438,7 @@ ALTER SEQUENCE public.shifts_shift_id_seq OWNED BY public.shifts.shift_id;
 
 CREATE TABLE public.users (
     user_id integer NOT NULL,
-    role public.role DEFAULT 'custumer'::public.role NOT NULL,
+    role public.role DEFAULT 'customer'::public.role NOT NULL,
     first_name character varying(80) NOT NULL,
     last_name character varying(80) NOT NULL,
     email character varying(80) NOT NULL,
@@ -562,7 +585,7 @@ COPY public.reviews (review_id, user_id, room_id, rating, comment) FROM stdin;
 -- Data for Name: rooms; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.rooms (room_id, room_number, guest, occupency, features, price) FROM stdin;
+COPY public.rooms (room_id, room_number, guest, features, price, status) FROM stdin;
 \.
 
 

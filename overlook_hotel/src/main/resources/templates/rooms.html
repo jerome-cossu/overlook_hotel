@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rooms - Overlook Hotel</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <h1>Overlook Hotel</h1>
+    <nav>
+        <a href="/" class="active">Home</a>
+        <a href="/room">Room</a>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+    </nav>
+</header>
+
+<div class="banner-small" style="background-image: url('https://cdn.blastness.biz/media/980/top/thumbs/full/DJI_20240501103624_0358_web_1.jpg'); height: 400px;"></div>
+
+<div class="section">
+    <h2>Choose Your Room</h2>
+    <form th:action="@{/room/select}" method="post" class="rooms-selection">
+        <div class="room-choice">
+            <input type="radio" id="standard" name="roomType" value="Standard" required>
+            <label for="standard">
+                <img src="https://i.pinimg.com/474x/5a/ea/a0/5aeaa065337fa7a8901233bead3c749e.jpg" alt="Standard Room">
+                <p>Standard Room</p>
+                <p>Capacity: 2 people</p>
+                <p>Price: €100 / night</p>
+            </label>
+        </div>
+
+        <div class="room-choice">
+            <input type="radio" id="suite" name="roomType" value="Suite" required>
+            <label for="suite">
+                <img src="https://i.pinimg.com/736x/31/87/d4/3187d4fa24d9bc2e2cea545404e50bfa.jpg" alt="Suite Room">
+                <p>Suite Room</p>
+                <p>Capacity: 4 people</p>
+                <p>Price: €250 / night</p>
+            </label>
+        </div>
+
+        <div class="room-choice">
+            <input type="radio" id="deluxe" name="roomType" value="Deluxe" required>
+            <label for="deluxe">
+                <img src="https://media.admagazine.fr/photos/66c851109a542b0172272219/master/w_1600%2Cc_limit/Hotel%2520Crillon%2520Le%2520Brave%2520%25C2%25A9%2520Mr.%2520Tripper-147.jpg" alt="Deluxe Room">
+                <p>Deluxe Room</p>
+                <p>Capacity: 2 people</p>
+                <p>Price: €150 / night</p>
+            </label>
+        </div>
+
+        <button type="submit" style="margin-top: 20px; padding: 10px 20px; font-weight: bold; background-color: #10826b; color: white; border: none; border-radius: 5px; cursor: pointer;">Select Room</button>
+    </form>
+</div>
+
+<footer>
+    <p>© 2025 Overlook Hotel | Contact: contact@overlookhotel.com | +33 1 23 45 67 89</p>
+</footer>
+
+</body>
+</html>
