@@ -6,9 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 // import java.util.Set;
-import java.util.List;
-import java.util.ArrayList;
+
 import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "bookings")
@@ -29,8 +31,11 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonManagedReference
     private User user;
 
-    @OneToMany(mappedBy = "booking")
-    private List<Room> rooms = new ArrayList<>();
+    @ManyToOne
+    @JsonManagedReference
+    @JoinColumn(name = "room_id") // relation vers la chambre réservée
+    private Room room;
 }

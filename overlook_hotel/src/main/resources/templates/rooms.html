@@ -34,6 +34,7 @@
         <p>Prix: <span id="modal-price"></span> € / nuit</p>
         <p>Occupation: <span id="modal-occupancy"></span></p>
         <ul id="modal-features" class="features"></ul>
+        <div id="modal-booking-form"></div>
         <button onclick="closeModal()">Fermer</button>
     </div>
 </div>
@@ -67,6 +68,7 @@ function displayRooms(rooms) {
                 ${room.features.map(f => `<li>${f.name}</li>`).join('')}
             </ul>
             <button onclick='showDetails(${JSON.stringify(room)})'>Détails</button>
+            
         `;
         container.appendChild(card);
     });
@@ -81,7 +83,52 @@ function showDetails(room) {
     document.getElementById('modal-occupancy').textContent = room.occupancy ? 'Occupée' : 'Disponible';
     const featureList = document.getElementById('modal-features');
     featureList.innerHTML = room.features.map(f => `<li>${f.name}</li>`).join('');
+        const bookingContainer = document.getElementById('modal-booking-form');
+    if (!room.occupancy) {
+        bookingContainer.innerHTML = `
+            <form id="booking-form-${room.id}">
+                <label>Check-in:</label>
+                <input type="date" name="checkIn" required>
+                <label>Check-out:</label>
+                <input type="date" name="checkOut" required>
+                <button type="submit">Réserver</button>
+            </form>
+        `;
+
+        // Ajout de l'événement submit
+        const form = document.getElementById(`booking-form-${room.id}`);
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const checkIn = form.checkIn.value;
+            const checkOut = form.checkOut.value;
+
+            try {
+                const res = await fetch(`/bookings/reserve/${room.id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({ checkIn, checkOut })
+                });
+
+                if (res.ok) {
+                    alert('Réservation effectuée !');
+                    closeModal();
+                    fetchRooms(); // actualiser l'affichage des chambres
+                } else {
+                    alert('Erreur lors de la réservation.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Erreur réseau.');
+            }
+        });
+
+    } else {
+        bookingContainer.innerHTML = '<p>Chambre déjà réservée</p>';
+    }
     modal.style.display = 'flex';
+    
 }
 
 function closeModal() {

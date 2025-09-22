@@ -2,6 +2,8 @@ package com.example.overlook_hotel.model;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
@@ -20,7 +22,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    // @Column(name = "user_id")
     private Long id;
 
     @Column(name = "first_name", nullable = false)
@@ -46,5 +48,6 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "user") 
+    @JsonBackReference
     private List<Booking> bookings = new ArrayList<>();
 }

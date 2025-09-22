@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "rooms")
 @Data
@@ -43,5 +45,6 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(name = "booking_id")
+    @JsonBackReference
     private Booking booking;
 }

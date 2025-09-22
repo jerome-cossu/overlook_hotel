@@ -16,7 +16,7 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
-    public Room getRoomById(int id) {
+    public Room getRoomById(Long id) {
         return roomRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Room not found with id " + id));
     }
@@ -25,7 +25,7 @@ public class RoomService {
     return roomRepository.save(room);
     }
 
-    public Room updateRoom(int id, Room roomDetails) {
+    public Room updateRoom(Long id, Room roomDetails) {
         Room room = getRoomById(id);
 
         room.setRoomNumber(roomDetails.getRoomNumber());
@@ -40,7 +40,7 @@ public class RoomService {
     }
 
     @Transactional
-    public Room updateOccupancy(int id, boolean occupancy) {
+    public Room updateOccupancy(Long id, boolean occupancy) {
         Room room = roomRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Room not found with id " + id));
 
@@ -48,7 +48,7 @@ public class RoomService {
         return roomRepository.save(room);
     }
 
-    public void deleteRoom(int id) {
+    public void deleteRoom(Long id) {
         roomRepository.deleteById(id);
     }
 }
