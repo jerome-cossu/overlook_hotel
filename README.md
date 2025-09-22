@@ -147,8 +147,10 @@ If you imported `db/seed-data.sql`, these demo credentials are created:
     Employee
         email: employee@overlook.test
         password: Password123!
-    Guest
-        email: guest@overlook.test
+    Guests
+        email: guest1@overlook.test
+        mot de passe: Password123!
+        email: guest2@overlook.test
         password: Password123!
 
 Change these after first login in a real environment.
@@ -348,8 +350,10 @@ Si vous avez importé `db/seed-data.sql`, ces identifiants de démonstration son
     Employé
         email: employee@overlook.test
         mot de passe: Password123!
-    Invité
-        email: guest@overlook.test
+    Invités
+        email: guest1@overlook.test
+        mot de passe: Password123!
+        email: guest2@overlook.test
         mot de passe: Password123!
 
 Changez ces identifiants après la première connexion dans un environnement réel.
