@@ -213,13 +213,30 @@ Summary of roles:
 
 ## Seed data & demo flows
 
-- Provide concrete seed dataset
-- List a few demo user credentials and step-by-step demo scenarios to run in 10 minutes.
+Seed script with:
+
+Roles: GUEST, EMPLOYEE, MANAGER
+
+Users:
+    manager@overlook.test / Password123! (MANAGER)
+    employee@overlook.test / Password123! (EMPLOYEE)
+    guest1@overlook.test / Password123! (GUEST)
+    guest2@overlook.test / Password123! (GUEST)
+
+Rooms: 101 (Single, cap 1, 80), 102 (Double, cap 2, 120), 201 (Suite, cap 4, 300)
+
+Reservations: one sample reservation in the past for rating flow
+
+Provide these credentials in README and Postman environment.
 
 ---
 
 ## Thymeleaf pages
 
+- **Public:** landing, rooms search, room details, register/login
+- **Guest:** dashboard (reservations), reservation detail, profile
+- **Employee:** reservations list, room status update
+- **Manager:** admin dashboard, room CRUD, reports
 
 ---
 
@@ -473,12 +490,30 @@ Résumé des rôles :
 
 ## Données de semence et flux de démonstration
 
-- Fournir un ensemble de données de semence concret.
-- Lister quelques identifiants d'utilisateur de démonstration et des scénarios de démonstration étape par étape à exécuter en 10 minutes.
+Seed script with:
+
+Roles: GUEST, EMPLOYEE, MANAGER
+
+Users:
+    manager@overlook.test / Password123! (MANAGER)
+    employee@overlook.test / Password123! (EMPLOYEE)
+    guest1@overlook.test / Password123! (GUEST)
+    guest2@overlook.test / Password123! (GUEST)
+
+Rooms: 101 (Single, cap 1, 80), 102 (Double, cap 2, 120), 201 (Suite, cap 4, 300)
+
+Reservations: one sample reservation in the past for rating flow
+
+Provide these credentials in README and Postman environment.
 
 ---
 
 ## Pages Thymeleaf
+
+- **Public :** page d'accueil, recherche de chambres, détails de la chambre, inscription/connexion
+- **Client :** tableau de bord (réservations), détails de la réservation, profil
+- **Employé :** liste des réservations, mise à jour de l'état des chambres
+- **Gestionnaire :** tableau de bord administrateur, CRUD des chambres, rapports
 
 ---
 
