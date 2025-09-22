@@ -27,6 +27,9 @@ public class Room {
     @Column(nullable = false)
     private boolean occupancy;
 
+    @Column(name = "room_picture")
+    private String picture;
+
     @ManyToMany
     @JoinTable(
         name = "room_feature",

@@ -34,6 +34,7 @@ public class RoomService {
         room.setFeatures(roomDetails.getFeatures());
         room.setPrice(roomDetails.getPrice());
         room.setBooking(roomDetails.getBooking());
+        room.setPicture(roomDetails.getPicture());
 
         return roomRepository.save(room);
     }
