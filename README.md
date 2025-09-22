@@ -200,6 +200,7 @@ JWT errors: ensure `app.jwt.secret` is set and consistent between runs.
 ---
 
 #  🇫🇷 FR: Overlook Hotel
+#### (🇬🇧 English above)
 
 Une plateforme de gestion hôtelière sécurisée et basée sur des rôles.
 
