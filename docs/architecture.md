@@ -319,7 +319,7 @@ Error handling & validation
 
 ### Seed & demo
 
-    db/seed-data.sql creates roles, demo usersSeed (manager@overlook.test, employee@overlook.test, guest1/guest2), sample rooms, and at least one past reservation for feedback flows.
+    db/seed-data.sql creates roles, demo usersSeed (manager@overlook.test, employee@overlook.test, guest1/guest2@overlook.test), sample rooms (delux - occupancy 2, price 150euros, suite - occupancy 4, price 250euros , standard - occupancy 2, price 100euros), and at least one past reservation for feedback flows.
     scripts/seed-db.sh wraps psql call to load seed-data.sql.
 
 ### Responsibilities split
