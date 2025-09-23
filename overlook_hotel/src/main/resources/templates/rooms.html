@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Rooms - Overlook Hotel</title>
+</head>
+<body>
+    <header>
+    <h1>WELCOME TO THE OVERLOOK HOTEL</h1>
+    <nav>
+        <a href="/home">Home</a>
+        <a href="/rooms">Room</a>
+        <a href="#">Events</a>
+        <a href="#">Facility</a>
+        <a href="#">Booking</a>
+        <a href="#">Contact</a>
+        <a href="/login" class="login-btn">Login</a>
+    </nav>
+</header>
+<header>
+    <h1>Nos Chambres</h1>
+</header>
+<main>
+    <div id="rooms-container"></div>
+</main>
+
+<div id="room-details">
+    <div class="modal">
+        <h2 id="modal-room-number"></h2>
+        <img id="modal-picture" src="" alt="Room photo">
+        <p>Capacité: <span id="modal-guest"></span> personne(s)</p>
+        <p>Prix: <span id="modal-price"></span> € / nuit</p>
+        <p>Occupation: <span id="modal-occupancy"></span></p>
+        <ul id="modal-features" class="features"></ul>
+        <div id="modal-booking-form"></div>
+        <button onclick="closeModal()">Fermer</button>
+    </div>
+</div>
+
+<script>
+const API_BASE = '/api/rooms'; 
+const container = document.getElementById('rooms-container');
+const modal = document.getElementById('room-details');
+
+async function fetchRooms() {
+    try {
+        const res = await fetch(API_BASE);
+        const rooms = await res.json();
+        displayRooms(rooms);
+    } catch (err) {
+        container.innerHTML = '<p>Impossible de charger les chambres.</p>';
+        console.error(err);
+    }
+}
+
+function displayRooms(rooms) {
+    container.innerHTML = '';
+    rooms.forEach(room => {
+        const card = document.createElement('div');
+        card.className = 'room-card';
+        card.innerHTML = `
+            <h2>Chambre ${room.roomNumber}</h2>
+            <p>Capacité: ${room.guest} personne(s)</p>
+            <img src="/images/${room.picture}" alt="photo" id="room-picture"/>
+            <ul class="features">
+                ${room.features.map(f => `<li>${f.name}</li>`).join('')}
+            </ul>
+            <button onclick='showDetails(${JSON.stringify(room)})'>Détails</button>
+            
+        `;
+        container.appendChild(card);
+    });
+}
+
+
+function showDetails(room) {
+    document.getElementById('modal-room-number').textContent = `Chambre ${room.roomNumber}`;
+    document.getElementById('modal-guest').textContent = room.guest;
+    document.getElementById('modal-price').textContent = room.price;
+    document.getElementById('modal-picture').setAttribute("src", "/images/" + room.picture);
+    document.getElementById('modal-occupancy').textContent = room.occupancy ? 'Occupée' : 'Disponible';
+    const featureList = document.getElementById('modal-features');
+    featureList.innerHTML = room.features.map(f => `<li>${f.name}</li>`).join('');
+        const bookingContainer = document.getElementById('modal-booking-form');
+    if (!room.occupancy) {
+        bookingContainer.innerHTML = `
+            <form id="booking-form-${room.id}">
+                <label>Check-in:</label>
+                <input type="date" name="checkIn" required>
+                <label>Check-out:</label>
+                <input type="date" name="checkOut" required>
+                <button type="submit">Réserver</button>
+            </form>
+        `;
+
+        // Ajout de l'événement submit
+        const form = document.getElementById(`booking-form-${room.id}`);
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const checkIn = form.checkIn.value;
+            const checkOut = form.checkOut.value;
+
+            try {
+                const res = await fetch(`/bookings/reserve/${room.id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({ checkIn, checkOut })
+                });
+
+                if (res.ok) {
+                    alert('Réservation effectuée !');
+                    closeModal();
+                    fetchRooms(); // actualiser l'affichage des chambres
+                } else {
+                    alert('Erreur lors de la réservation.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Erreur réseau.');
+            }
+        });
+
+    } else {
+        bookingContainer.innerHTML = '<p>Chambre déjà réservée</p>';
+    }
+    modal.style.display = 'flex';
+    
+}
+
+function closeModal() {
+    modal.style.display = 'none';
+}
+
+fetchRooms();
+</script>
+</body>
+</html>

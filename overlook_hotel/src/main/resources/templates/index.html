@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Overlook Hotel</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <h1>WELCOME TO THE OVERLOOK HOTEL</h1>
+    <nav>
+        <a href="/home">Home</a>
+        <a href="/rooms">Room</a>
+        <a href="#">Events</a>
+        <a href="#">Facility</a>
+        <a href="#">Booking</a>
+        <a href="#">Contact</a>
+        <a href="/login" class="login-btn">Login</a>
+    </nav>
+</header>
+
+<div class="banner"></div>
+
+<div class="section about">
+    <h2>ABOUT US</h2>
+    <p>Discover the comfort, luxury, and impeccable service of our hotel. Enjoy elegant rooms, modern facilities, and a unique experience.</p>
+    <p>You can simply come and spend a few days relaxing in an absolutely stunning setting. You can also celebrate the most important events of your life, such as weddings, birthdays, baptisms, and more.</p>
+</div>
+
+<div class="section featured-rooms">
+    <h2>FEATURED ROOMS</h2>
+    <div class="rooms">
+        <div class="room">
+            <img src="https://media.admagazine.fr/photos/66c851109a542b0172272219/master/w_1600%2Cc_limit/Hotel%2520Crillon%2520Le%2520Brave%2520%25C2%25A9%2520Mr.%2520Tripper-147.jpg" alt="Deluxe Room">
+            <h3>Deluxe Room</h3>
+            <p>Capacity: 2 people</p>
+            <p>Price: €150 / night</p>
+        </div>
+        <div class="room">
+            <img src="https://i.pinimg.com/736x/31/87/d4/3187d4fa24d9bc2e2cea545404e50bfa.jpg" alt="Suite Room">
+            <h3>Suite Room</h3>
+            <p>Capacity: 4 people</p>
+            <p>Price: €250 / night</p>
+        </div>
+        <div class="room">
+            <img src="https://i.pinimg.com/474x/5a/ea/a0/5aeaa065337fa7a8901233bead3c749e.jpg" alt="Standard Room">
+            <h3>Standard Room</h3>
+            <p>Capacity: 2 people</p>
+            <p>Price: €100 / night</p>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>© 2025 Overlook Hotel | Contact: contact@overlookhotel.com | +33 1 23 45 67 89</p>
+</footer>
+
+</body>
+</html>
