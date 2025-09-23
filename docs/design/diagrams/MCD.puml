@@ -104,7 +104,7 @@ entity "shift_swap_requests" {
   + id : int
   --
   requester_id : int
-  target_shift_id : int
+  target_shift_id : inta
   replacement_shift_id : int
   status : varchar
   created_at : timestamp
