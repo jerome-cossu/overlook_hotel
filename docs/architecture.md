@@ -29,6 +29,7 @@ This document describes the repository architecture, package responsibilities, k
                 com.overlook.app/
 
                 config/
+                    SecurityBeansConfig.java
                     SecurityConfig.java
                     JwtFilter.java
                     JwtUtils.java
@@ -157,10 +158,11 @@ This document describes the repository architecture, package responsibilities, k
 
 ### config
 
+    /SecurityBeansConfig.java
     /SecurityConfig.java — Spring Security configuration (stateless JWT).
     /JwtFilter.java — validates JWT, injects Authentication.
     /JwtUtils.java — token creation/validation.
-    /WebMvcConfig.java — view resolvers, static resources, CORS (cross-origin resource sharing).
+    /WebMvcConfig.java — interceptors for authentication and authorization, logging and monitoring, view resolvers, static resources
 
 ### controller
 
@@ -317,7 +319,7 @@ Error handling & validation
 
 ### Seed & demo
 
-    db/seed-data.sql creates roles, demo users (manager@overlook.test, employee@overlook.test, guest1/guest2), sample rooms, and at least one past reservation for feedback flows.
+    db/seed-data.sql creates roles, demo usersSeed (manager@overlook.test, employee@overlook.test, guest1/guest2), sample rooms, and at least one past reservation for feedback flows.
     scripts/seed-db.sh wraps psql call to load seed-data.sql.
 
 ### Responsibilities split

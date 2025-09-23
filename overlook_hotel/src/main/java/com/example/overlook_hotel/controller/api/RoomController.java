@@ -1,4 +1,4 @@
-package com.example.overlook_hotel.controller;
+package com.example.overlook_hotel.controller.api;
 import com.example.overlook_hotel.model.Room;
 import com.example.overlook_hotel.service.RoomService;
 import lombok.RequiredArgsConstructor;

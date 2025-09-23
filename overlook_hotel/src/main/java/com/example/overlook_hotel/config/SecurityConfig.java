@@ -15,14 +15,15 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
+                    "/index",
                     "/register", 
                     "/login", 
                     "/style.css", 
                     "/css/**", 
                     "/js/**", 
-                    "/images/**", 
-                    "/", 
-                    "/index"
+                    "/img/**", 
+                    "/"
+
                 ).permitAll()
                 .anyRequest().authenticated()
             )

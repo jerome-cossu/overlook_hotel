@@ -46,5 +46,5 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "user")  // relation inverse
-    private List<Booking> bookings = new ArrayList<>();
+    private List<Reservation> bookings = new ArrayList<>();
 }

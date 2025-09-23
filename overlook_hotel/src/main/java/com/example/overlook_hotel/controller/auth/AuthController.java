@@ -1,4 +1,4 @@
-package com.example.overlook_hotel.controller;
+package com.example.overlook_hotel.controller.auth;
 
 import com.example.overlook_hotel.model.User;
 import com.example.overlook_hotel.service.UserService;
