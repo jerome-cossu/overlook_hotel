@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 // import java.util.Set;
 
 import java.time.LocalDate;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity

@@ -1,7 +1,6 @@
 package com.example.overlook_hotel.service;
 
 import com.example.overlook_hotel.model.Booking;
-import com.example.overlook_hotel.model.Feature;
 import com.example.overlook_hotel.model.Room;
 import com.example.overlook_hotel.model.User;
 import com.example.overlook_hotel.repository.RoomRepository;
@@ -31,10 +30,10 @@ public class BookingService {
         }
 
         // Mettre la chambre en occupée
-        
-        if (LocalDate.now() >= checkIn && LocalDate.now() <= checkOut) {
+        LocalDate today = LocalDate.now();
+        if ((today.isAfter(checkIn) || today.isEqual(checkIn)) 
+        && (today.isBefore(checkOut) || today.isEqual(checkOut))) {
             room.setOccupancy(true);
-
         }
         roomRepository.save(room);
 

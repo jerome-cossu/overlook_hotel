@@ -1,6 +1,5 @@
 package com.example.overlook_hotel.controller;
 
-import com.example.overlook_hotel.model.Feature;
 import com.example.overlook_hotel.model.User;
 import com.example.overlook_hotel.model.Booking;
 import com.example.overlook_hotel.service.BookingService;
