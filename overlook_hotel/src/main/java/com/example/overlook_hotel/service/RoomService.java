@@ -31,7 +31,6 @@ public class RoomService {
         room.setRoomNumber(roomDetails.getRoomNumber());
         room.setGuest(roomDetails.getGuest());
         room.setOccupancy(roomDetails.isOccupancy());
-        room.setFeatures(roomDetails.getFeatures());
         room.setPrice(roomDetails.getPrice());
         room.setBooking(roomDetails.getBooking());
 

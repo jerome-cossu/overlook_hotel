@@ -1,11 +1,9 @@
 package com.example.overlook_hotel.model;
-import java.util.HashSet;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import java.util.Set;
 
 @Entity
 @Table(name = "rooms")
@@ -26,14 +24,6 @@ public class Room {
 
     @Column(nullable = false)
     private boolean occupancy;
-
-    @ManyToMany
-    @JoinTable(
-        name = "room_feature",
-        joinColumns = @JoinColumn(name = "room_id"),
-        inverseJoinColumns = @JoinColumn(name = "feature_id")
-    )
-    private Set<Feature> features = new HashSet<>();
 
     @Column(nullable = false)
     private int price;
