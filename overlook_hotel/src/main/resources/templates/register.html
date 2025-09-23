@@ -1,30 +1,60 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Register</title>
+    <meta charset="UTF-8">
+    <title>Register - Overlook Hotel</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h2>Register</h2>
-<form th:action="@{/register}" th:object="${user}" method="post">
-    <div>
-        <label>First Name:</label>
-        <input type="text" th:field="*{firstName}" required/>
-    </div>
-    <div>
-        <label>Last Name:</label>
-        <input type="text" th:field="*{lastName}" required/>
-    </div>
-    <div>
-        <label>Email:</label>
-        <input type="email" th:field="*{email}" required/>
-    </div>
-    <div>
-        <label>Password:</label>
-        <input type="password" th:field="*{password}" required/>
-    </div>
-    <button type="submit">Register</button>
-</form>
-<p th:if="${error}" th:text="${error}" style="color:red"></p>
-<p>Already have an account? <a th:href="@{/login}">Login</a></p>
+
+<header>
+    <h1>WELCOME TO THE OVERLOOK HOTEL</h1>
+    <nav>
+        <a href="/home" class="active">Home</a>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+    </nav>
+</header>
+
+<div class="banner"></div>
+
+<div class="login-section">
+    <h2>REGISTER</h2>
+    <form th:action="@{/register}" method="post">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" name="firstName" required>
+
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" name="lastName" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password"required>
+        <label class="show-password"> Show Password
+            <input type="checkbox" id="showPassword" onclick="togglePassword()">
+        </label>
+
+
+        <button type="submit">Register</button>
+    </form>
+</div>
+
+<footer>
+    <p>© 2025 Overlook Hotel | Contact: contact@overlookhotel.com | +33 1 23 45 67 89</p>
+</footer>
+
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+        } else {
+            passwordInput.type = 'password';
+        }
+    }
+</script>
+
 </body>
 </html>
