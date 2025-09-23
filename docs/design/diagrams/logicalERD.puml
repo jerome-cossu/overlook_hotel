@@ -1,0 +1,238 @@
+@startuml Overlook Hotel ER Diagram
+title Overlook Hotel — Logical ERD
+
+entity "roles" as roles {
+  * id : bigint
+  --
+  name
+  description
+  created_at
+}
+
+entity "users" as users {
+  * id : bigint
+  --
+  email
+  username
+  password_hash
+  first_name
+  last_name
+  phone_number
+  date_of_birth
+  profile_photo_url
+  is_active
+  role_id
+  annual_leave_balance
+  sick_leave_balance
+  created_at
+  updated_at
+  last_login
+  version
+}
+
+entity "rooms" as rooms {
+  * id : bigint
+  --
+  room_number
+  room_type
+  capacity
+  base_price
+  description
+  floor_number
+  amenities (array)
+  status
+  is_accessible
+  created_at
+  updated_at
+  version
+}
+
+entity "reservations" as reservations {
+  * id : bigint
+  --
+  user_id
+  room_id
+  lead_guest_name
+  lead_guest_phone
+  check_in_date
+  check_out_date
+  guests_count
+  total_price
+  status
+  special_requests
+  cancellation_policy
+  created_at
+  updated_at
+  version
+}
+
+entity "loyalty_points" as loyalty_points {
+  * id : bigint
+  --
+  user_id
+  total_points
+  lifetime_points
+  tier
+  last_earned_at
+  created_at
+  updated_at
+}
+
+entity "loyalty_transactions" as loyalty_transactions {
+  * id : bigint
+  --
+  user_id
+  reservation_id
+  points_change
+  balance_after
+  transaction_type
+  description
+  created_at
+}
+
+entity "employee_shifts" as employee_shifts {
+  * id : bigint
+  --
+  user_id
+  shift_date
+  start_time
+  end_time
+  shift_type
+  department
+  status
+  notes
+  created_at
+  updated_at
+  version
+}
+
+entity "shift_swap_requests" as shift_swap_requests {
+  * id : bigint
+  --
+  requester_id
+  target_shift_id
+  replacement_shift_id
+  status
+  created_at
+  reviewed_at
+  reviewed_by
+  review_notes
+}
+
+entity "holiday_requests" as holiday_requests {
+  * id : bigint
+  --
+  user_id
+  start_date
+  end_date
+  request_type
+  status
+  reason
+  reviewed_by
+  reviewed_at
+  created_at
+  updated_at
+}
+
+entity "guest_feedback" as guest_feedback {
+  * id : bigint
+  --
+  reservation_id
+  user_id
+  rating
+  feedback_text
+  categories (array)
+  anonymous
+  created_at
+  updated_at
+}
+
+entity "feedback_responses" as feedback_responses {
+  * id : bigint
+  --
+  feedback_id
+  responder_id
+  responder_role
+  response_text
+  attachment_url
+  created_at
+  updated_at
+}
+
+entity "notification_preferences" as notification_preferences {
+  * id : bigint
+  --
+  user_id
+  email_enabled
+  sms_enabled
+  push_enabled
+  marketing_emails
+  reservation_updates
+  feedback_notifications
+  updated_at
+}
+
+entity "notifications" as notifications {
+  * id : bigint
+  --
+  user_id
+  notification_preferences_snapshot (jsonb)
+  type
+  title
+  message
+  is_read
+  channel
+  related_entity_type
+  related_entity_id
+  channel_snapshot (jsonb)
+  created_at
+}
+
+entity "room_status_logs" as room_status_logs {
+  * id : bigint
+  --
+  room_id
+  status
+  changed_by
+  changed_at
+  notes
+}
+
+entity "audit_logs" as audit_logs {
+  * id : bigint
+  --
+  user_id
+  action
+  entity_type
+  entity_id
+  details (jsonb)
+  created_at
+}
+
+roles ||--o{ users : "assigned to"
+users ||--o{ reservations : "books"
+rooms ||--o{ reservations : "hosts"
+users ||--|| loyalty_points : "has"
+users ||--o{ loyalty_transactions : "earns/spends"
+reservations ||--o{ loyalty_transactions : "related to"
+users ||--o{ employee_shifts : "scheduled for"
+employee_shifts ||--o{ shift_swap_requests : "is targeted by"
+users ||--o{ guest_feedback : "submits"
+guest_feedback ||--o{ feedback_responses : "receives"
+users ||--o{ notification_preferences : "configures"
+users ||--o{ notifications : "receives"
+notification_preferences ||--o{ notifications : "may supply snapshot"
+rooms ||--o{ room_status_logs : "records"
+users ||--o{ audit_logs : "performs"
+users ||--o{ holiday_requests : "requests"
+users ||--o{ holiday_requests : "reviews" : reviewed_by
+
+' Specific FKs (visual)
+holiday_requests }|..|| users : "user_id"
+holiday_requests }|..|| users : "reviewed_by"
+notification_preferences }|..|| users : "user_id"
+notifications }|..|| users : "user_id"
+notifications }|..o{ notification_preferences : "notification_preferences_snapshot (logical)"
+
+@enduml
+

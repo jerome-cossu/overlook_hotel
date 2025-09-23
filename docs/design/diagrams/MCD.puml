@@ -1,0 +1,257 @@
+@startuml Overlook Hotel ER Diagram
+
+title Overlook Hotel — Conceptual Database Model
+' Users and Authentication
+entity "users" {
+  + id : int
+  --
+  username : varchar
+  email : varchar
+  password : varchar
+  first_name : varchar
+  last_name : varchar
+  role : varchar
+  phone_number : varchar
+  date_of_birth : date
+  is_active : boolean
+  annual_leave_balance : decimal
+  sick_leave_balance : decimal
+  created_at : timestamp
+  updated_at : timestamp
+  last_login : timestamp
+  is_deleted : boolean
+}
+
+' Rooms and Reservations
+entity "rooms" {
+  + id : int
+  --
+  room_number : varchar
+  room_type : varchar
+  capacity : int
+  base_price : decimal
+  description : text
+  floor_number : int
+  amenities : text[]
+  status : varchar
+  is_accessible : boolean
+  created_at : timestamp
+  updated_at : timestamp
+  is_deleted : boolean
+}
+
+entity "reservations" {
+  + id : int
+  --
+  user_id : int
+  room_id : int
+  lead_guest_name : varchar
+  lead_guest_phone : varchar
+  check_in_date : date
+  check_out_date : date
+  total_price : decimal
+  status : varchar
+  guests_count : int
+  special_requests : text
+  created_at : timestamp
+  updated_at : timestamp
+  version : int
+  is_deleted : boolean
+}
+
+' Loyalty System
+entity "loyalty_points" {
+  + id : int
+  --
+  user_id : int
+  total_points : int
+  lifetime_points : int
+  tier : varchar
+  last_earned_date : timestamp
+  points_expiry_date : timestamp
+  updated_at : timestamp
+}
+
+entity "loyalty_transactions" {
+  + id : int
+  --
+  user_id : int
+  points_change : int
+  transaction_type : varchar
+  description : text
+  reservation_id : int
+  created_at : timestamp
+}
+
+' Employee Shifts
+entity "employee_shifts" {
+  + id : int
+  --
+  user_id : int
+  shift_date : date
+  start_time : timestamp
+  end_time : timestamp
+  shift_type : varchar
+  department : varchar
+  status : varchar
+  notes : text
+  created_at : timestamp
+  updated_at : timestamp
+  version : int
+}
+
+entity "shift_swap_requests" {
+  + id : int
+  --
+  requester_id : int
+  target_shift_id : int
+  replacement_shift_id : int
+  status : varchar
+  created_at : timestamp
+  reviewed_at : timestamp
+  reviewed_by : int
+  review_notes : text
+}
+
+' Holiday Requests
+entity "holiday_requests" {
+  + id : int
+  --
+  user_id : int
+  start_date : date
+  end_date : date
+  request_type : varchar
+  status : varchar
+  reason : text
+  reviewed_by : int
+  reviewed_at : timestamp
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+' Feedback System
+entity "guest_feedback" {
+  + id : int
+  --
+  reservation_id : int
+  user_id : int
+  rating : int
+  feedback_text : text
+  categories : text[]
+  anonymous : boolean
+  created_at : timestamp
+  updated_at : timestamp
+  is_deleted : boolean
+}
+
+entity "feedback_responses" {
+  + id : int
+  --
+  feedback_id : int
+  responder_id : int
+  responder_role : varchar
+  response_text : text
+  created_at : timestamp
+  updated_at : timestamp
+  is_deleted : boolean
+  attachment_url : varchar
+}
+
+' Notification System (polymorphic references)
+entity "notification_preferences" {
+  + id : int
+  --
+  user_id : int
+  email_enabled : boolean
+  sms_enabled : boolean
+  push_enabled : boolean
+  marketing_emails : boolean
+  reservation_updates : boolean
+  feedback_notifications : boolean
+  updated_at : timestamp
+}
+
+entity "notifications" {
+  + id : int
+  --
+  user_id : int
+  notification_preferences_id : int
+  type : varchar
+  title : varchar
+  message : text
+  is_read : boolean
+  channel : varchar
+  related_entity_type : varchar   ' polymorphic target type (e.g., "reservation","room","user","guest_feedback")
+  related_entity_id : int          ' polymorphic target id
+  channel_snapshot : jsonb
+  created_at : timestamp
+}
+
+' Logging and Audit (polymorphic fields)
+entity "room_status_logs" {
+  + id : int
+  --
+  room_id : int
+  status : varchar
+  changed_by : int
+  changed_at : timestamp
+  notes : text
+}
+
+entity "audit_logs" {
+  + id : int
+  --
+  user_id : int
+  action : varchar
+  entity_type : varchar    ' polymorphic target type
+  entity_id : int          ' polymorphic target id
+  details : jsonb
+  created_at : timestamp
+}
+
+' Relationships with verbs (labels)
+users ||--o{ reservations : "books"
+rooms ||--o{ reservations : "hosts / is assigned to"
+
+users ||--|| loyalty_points : "has"
+users ||--o{ loyalty_transactions : "earns / spends"
+reservations ||--o{ loyalty_transactions : "generates / redeems"
+loyalty_points ||--o{ loyalty_transactions : "tracks"
+
+users ||--o{ employee_shifts : "is scheduled for"
+users ||--o{ shift_swap_requests : "requests"
+employee_shifts ||--o{ shift_swap_requests : "is targeted by / is replaced by"
+
+users ||--o{ holiday_requests : "requests"
+
+users ||--o{ guest_feedback : "submits"
+reservations ||--o{ guest_feedback : "is about"
+guest_feedback ||--o{ feedback_responses : "receives"
+users ||--o{ feedback_responses : "authors / responds"
+
+users ||--|| notification_preferences : "configures"
+notification_preferences ||--o{ notifications : "informs / guides delivery"
+users ||--o{ notifications : "receives"
+
+rooms ||--o{ room_status_logs : "records"
+users ||--o{ room_status_logs : "changes"
+
+users ||--o{ audit_logs : "performs"
+
+' Polymorphic references illustrated (conceptual, not enforced by FKs)
+notifications ..> reservations : "may reference"
+notifications ..> rooms : "may reference"
+notifications ..> users : "may reference"
+notifications ..> guest_feedback : "may reference"
+
+audit_logs ..> reservations : "may document"
+audit_logs ..> rooms : "may document"
+audit_logs ..> users : "may document"
+audit_logs ..> guest_feedback : "may document"
+
+' Notes
+' - notification_preferences.user_id and notifications.user_id are FKs -> users.id
+' - notifications.notification_preferences_id is nullable and may snapshot the preference set at send time
+' - polymorphic pairs (related_entity_type, related_entity_id) provide flexible references without DB-level FKs
+
+@enduml
