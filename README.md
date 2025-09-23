@@ -6,6 +6,16 @@ A secure, role-based hotel management platform.
 Hotel guests can discover and book rooms and event spaces. 
 Staff and managers can perform core hotel operations.
 
+## Key Features
+
+⭐ Role-Based Access	Different access levels for guests, staff, and managers.
+
+⭐ Room and Event Booking - Guests can discover and reserve accommodations and event spaces.
+
+⭐ Core Operations - Staff can manage bookings, check-ins, and other hotel operations.
+
+⭐ Security - Utilizes JWT for secure authentication and authorization.
+
 ## 🛠 Setup
 
 ### 1. ✅ Prerequisites
