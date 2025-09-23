@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/style.css}">
     <title>Rooms - Overlook Hotel</title>
 </head>
 <body>
     <header>
     <h1>WELCOME TO THE OVERLOOK HOTEL</h1>
     <nav>
-        <a href="/home">Home</a>
+        <a href="/index">Home</a>
         <a href="/rooms">Room</a>
         <a href="#">Events</a>
         <a href="#">Facility</a>
@@ -63,7 +63,7 @@ function displayRooms(rooms) {
         card.innerHTML = `
             <h2>Chambre ${room.roomNumber}</h2>
             <p>Capacité: ${room.guest} personne(s)</p>
-            <img src="/images/${room.picture}" alt="photo" id="room-picture"/>
+            <img src="/img/${room.picture}" alt="photo" id="room-picture"/>
             <ul class="features">
                 ${room.features.map(f => `<li>${f.name}</li>`).join('')}
             </ul>
@@ -79,7 +79,7 @@ function showDetails(room) {
     document.getElementById('modal-room-number').textContent = `Chambre ${room.roomNumber}`;
     document.getElementById('modal-guest').textContent = room.guest;
     document.getElementById('modal-price').textContent = room.price;
-    document.getElementById('modal-picture').setAttribute("src", "/images/" + room.picture);
+    document.getElementById('modal-picture').setAttribute("src", "/img/" + room.picture);
     document.getElementById('modal-occupancy').textContent = room.occupancy ? 'Occupée' : 'Disponible';
     const featureList = document.getElementById('modal-features');
     featureList.innerHTML = room.features.map(f => `<li>${f.name}</li>`).join('');

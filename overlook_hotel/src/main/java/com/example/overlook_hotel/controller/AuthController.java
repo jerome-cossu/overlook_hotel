@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final UserService userService;
 
+    @GetMapping({"/", "/index"})
+    public String home() {
+        return "index";
+    }
     @GetMapping("/login")
     public String login() {
         return "login";
