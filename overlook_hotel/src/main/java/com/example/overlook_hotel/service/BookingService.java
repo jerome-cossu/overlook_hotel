@@ -31,7 +31,11 @@ public class BookingService {
         }
 
         // Mettre la chambre en occupée
-        room.setOccupancy(true);
+        
+        if (LocalDate.now() >= checkIn && LocalDate.now() <= checkOut) {
+            room.setOccupancy(true);
+
+        }
         roomRepository.save(room);
 
         // Créer la réservation
