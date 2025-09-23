@@ -2,14 +2,17 @@ package com.example.overlook_hotel.controller;
 import com.example.overlook_hotel.model.Room;
 import com.example.overlook_hotel.model.User;
 import com.example.overlook_hotel.service.RoomService;
+import com.example.overlook_hotel.service.UserService;
 import com.example.overlook_hotel.service.BookingService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ui.Model;
+
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
-
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,6 +22,8 @@ import java.util.List;
 public class RoomController {
 
     private final RoomService roomService;
+    private final BookingService bookingService;
+    private final UserService userService;
 
     @GetMapping
     public List<Room> getAllRooms() {
@@ -44,8 +49,6 @@ public class RoomController {
     public void deleteRoom(@PathVariable Long id) {
         roomService.deleteRoom(id);
     }
-
-        private final BookingService bookingService;
 
     public String reserveRoom(
             @PathVariable Long id,

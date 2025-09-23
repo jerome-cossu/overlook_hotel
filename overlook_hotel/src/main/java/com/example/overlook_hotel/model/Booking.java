@@ -34,6 +34,6 @@ public class Booking {
 
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "room_id") // relation vers la chambre réservée
+    @JoinColumn(name = "room_id")
     private Room room;
 }

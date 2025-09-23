@@ -67,7 +67,8 @@ function displayRooms(rooms) {
             <ul class="features">
                 ${room.features.map(f => `<li>${f.name}</li>`).join('')}
             </ul>
-            <button onclick='showDetails(${JSON.stringify(room)})'>Détails</button>
+            <a href="/rooms/${room.id}" class="details-btn">Détails</a>
+
             
         `;
         container.appendChild(card);
