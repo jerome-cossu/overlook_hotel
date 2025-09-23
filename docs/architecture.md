@@ -192,7 +192,7 @@ This document describes the repository architecture, package responsibilities, k
     NotFoundException, ConflictException, UnauthorizedException.
     GlobalExceptionHandler: converts exceptions to HTTP responses (400/401/403/404/409/500).
 
-### model (JPA entities)
+### model (JPA entities) 
 
     User: id, email (unique), passwordHash, firstName, lastName, phone, roles, enabled, createdAt, updatedAt.
     Role: id, name (GUEST, EMPLOYEE, MANAGER).
@@ -247,21 +247,21 @@ Services contain business rules and transactions. Controllers do not hold transa
 
 ### Preventing double-booking (concrete flow)
 
-    ReservationRepository.existsConflictingReservation(roomId, startDate, endDate)
-        SQL: SELECT 1 FROM reservation r WHERE r.room_id = :roomId AND r.status IN ('BOOKED','CHECKED_IN') AND NOT (r.end_date <= :startDate OR r.start_date >= :endDate) LIMIT 1;
+- ReservationRepository.existsConflictingReservation(roomId, startDate, endDate)
+    ```SQL
+    SQL: SELECT 1 FROM reservation r WHERE r.room_id = :roomId AND r.status IN ('BOOKED','CHECKED_IN') AND NOT (r.end_date <= :startDate OR r.start_date >= :endDate) LIMIT 1;
+    ```
 
-    ReservationService.createReservation(...) annotated with @Transactional:
-        Validate DTO (dates, guest).
-        Call existsConflictingReservation(...). If true, throw ConflictException (HTTP 409).
-        Calculate totalPrice = nights * room.pricePerNight.
-        Save reservation (reservationRepo.save).
-        Return reservation DTO.
+- ReservationService.createReservation(...) annotated with @Transactional:
+    - Validate DTO (dates, guest).
+    - Call existsConflictingReservation(...). If true, throw ConflictException (HTTP 409).
+    - Calculate totalPrice = nights * room.pricePerNight.
+    - Save reservation (reservationRepo.save).
+    - Return reservation DTO.
 
-    Concurrency safety:
-        Rely on transactional repository check + optimistic locking on writes.
-        Integration test simulates concurrent requests; expected behavior: one succeeds, others fail with ConflictException.
-
-Alternative availability model (not used): per-date availability table. Simpler approach above is sufficient for MVP.
+- Concurrency safety:
+    -  Rely on transactional repository check + optimistic locking on writes.
+    - Integration test simulates concurrent requests; expected behavior: one succeeds, others fail with ConflictException. 
 
 ### API endpoints
 
