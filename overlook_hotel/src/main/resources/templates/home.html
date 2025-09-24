@@ -56,5 +56,18 @@
     <p>© 2025 Overlook Hotel | Contact: contact@overlookhotel.com | +33 1 23 45 67 89</p>
 </footer>
 
+<script>
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user) {
+        const nav = document.querySelector("nav");
+        const loginBtn = nav.querySelector(".login-btn");
+        if (loginBtn) {
+            loginBtn.textContent = "Bonjour " + user.firstName;
+            loginBtn.removeAttribute("href"); // facultatif
+        }
+    }
+</script>
+
 </body>
 </html>

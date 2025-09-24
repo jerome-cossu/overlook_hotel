@@ -68,7 +68,11 @@
             });
 
             if (response.ok) {
-                const result = await response.json(); // ex: token ou user info
+                const result = await response.json(); 
+                localStorage.setItem("user", JSON.stringify({
+                    email: result.email,
+                    firstName: result.firstName // ou result.user.firstName selon ton back
+                }));
                 alert("Connexion réussie !");
                 console.log("Login result:", result);
 

@@ -137,6 +137,18 @@ function closeModal() {
 }
 
 fetchRooms();
+
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user) {
+        const nav = document.querySelector("nav");
+        const loginBtn = nav.querySelector(".login-btn");
+        if (loginBtn) {
+            loginBtn.textContent = "Bonjour " + user.firstName;
+            loginBtn.removeAttribute("href"); // facultatif
+        }
+    }
+
 </script>
 </body>
 </html>

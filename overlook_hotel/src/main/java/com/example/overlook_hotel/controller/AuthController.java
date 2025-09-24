@@ -48,6 +48,7 @@ public class AuthController {
         Map<String, String> response = new HashMap<>();
         response.put("message", "Connexion réussie");
         response.put("email", user.getEmail());
+        response.put("firstName", user.getFirstName());
         return ResponseEntity.ok(response);
     }
 }
