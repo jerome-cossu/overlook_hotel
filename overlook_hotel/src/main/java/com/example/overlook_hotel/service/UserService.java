@@ -1,18 +1,52 @@
 package com.example.overlook_hotel.service;
 
+import com.example.overlook_hotel.dto.RegisterRequest;
 import com.example.overlook_hotel.model.Role;
 import com.example.overlook_hotel.model.User;
 import com.example.overlook_hotel.repository.RoleRepository;
 import com.example.overlook_hotel.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public User register(RegisterRequest request) {
+        // Gestion du rôle avec fallback sur le rôle par défaut
+        Role role;
+        if (request.getRoleId() != null) {
+            role = roleRepository.findById(request.getRoleId())
+                    .orElseThrow(() -> new RuntimeException("Role not found"));
+        } else {
+            role = roleRepository.findByName("CUSTOMER")
+                    .orElseThrow(() -> new RuntimeException("Default role not found"));
+        }
+
+        // Création de l'utilisateur
+        User user = new User();
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(role);
+
+        return userRepository.save(user);
+    }
+
+    // Connexion
+    public Optional<User> login(String email, String rawPassword) {
+        return userRepository.findByEmail(email)
+                .filter(user -> passwordEncoder.matches(rawPassword, user.getPassword()));
+    }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -56,8 +90,7 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found with email " + email));
     }
 
-
-        public User getMockUser() {
+    public User getMockUser() {
         return userRepository.findById(6L)
                 .orElseThrow(() -> new RuntimeException("User with ID 6 not found"));
     }

@@ -28,7 +28,7 @@ public class RoomPageController {
             model.addAttribute("user", user);
         }
 
-        return "room-details"; // templates/room-details.html
+        return "room-details";
     }
 }
 

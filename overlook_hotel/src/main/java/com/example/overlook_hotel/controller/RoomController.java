@@ -54,9 +54,9 @@ public class RoomController {
             @PathVariable Long id,
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            @AuthenticationPrincipal User user) { // Spring Security pour récupérer le user
+            @AuthenticationPrincipal User user) {
 
         bookingService.reserveRoom(id, user, startDate, endDate);
-        return "redirect:/rooms/" + id; // redirige vers la page de la chambre
+        return "redirect:/rooms/" + id;
     }
 }
