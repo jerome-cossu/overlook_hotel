@@ -1,0 +1,103 @@
+@startuml Overlook Hotel ER Diagram
+title Overlook Hotel — Logical ERD (minimal booking-only)
+
+entity "roles" as roles {
+  * id : bigint
+  --
+  name
+  description
+  created_at
+}
+
+entity "users" as users {
+  * id : bigint
+  --
+  email
+  username
+  password_hash
+  first_name
+  last_name
+  phone_number
+  date_of_birth
+  profile_photo_url
+  is_active
+  role_id
+  created_at
+  updated_at
+  last_login
+  version
+}
+
+entity "rooms" as rooms {
+  * id : bigint
+  --
+  room_number
+  room_type
+  capacity
+  base_price
+  description
+  floor_number
+  status
+  is_accessible
+  created_at
+  updated_at
+  version
+}
+
+entity "room_features" as room_features {
+  * id : bigint
+  --
+  room_id
+  feature_id
+  added_at
+  source
+}
+
+entity "features" as features {
+  * id : bigint
+  --
+  code
+  name
+  description
+  icon_url
+  category
+  is_active
+  created_at
+  updated_at
+}
+
+entity "reservations" as reservations {
+  * id : bigint
+  --
+  user_id
+  room_id
+  lead_guest_name
+  lead_guest_phone
+  check_in_date
+  check_out_date
+  guests_count
+  total_price
+  status
+  special_requests
+  cancellation_policy
+  created_at
+  updated_at
+  version
+}
+
+' Relationships (minimal)
+roles ||--o{ users : "assigned to"
+users ||--o{ reservations : "books"
+rooms ||--o{ reservations : "hosts"
+
+' Room <-> Features many-to-many via room_features
+rooms ||--o{ room_features : "has"
+features ||--o{ room_features : "used by"
+room_features }o--|| rooms : "room_id -> rooms.id"
+room_features }o--|| features : "feature_id -> features.id"
+
+' Reservation FKs
+reservations }o--|| users : "user_id -> users.id"
+reservations }o--|| rooms : "room_id -> rooms.id"
+
+@enduml

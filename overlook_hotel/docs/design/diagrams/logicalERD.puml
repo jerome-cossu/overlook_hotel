@@ -39,12 +39,33 @@ entity "rooms" as rooms {
   base_price
   description
   floor_number
-  amenities (array)
   status
   is_accessible
   created_at
   updated_at
   version
+}
+
+entity "room_features" as room_features {
+  * id : bigint
+  --
+  room_id
+  feature_id
+  added_at
+  source
+}
+
+entity "features" as features {
+  * id : bigint
+  --
+  code
+  name
+  description
+  icon_url
+  category
+  is_active
+  created_at
+  updated_at
 }
 
 entity "reservations" as reservations {
@@ -209,6 +230,7 @@ entity "audit_logs" as audit_logs {
   created_at
 }
 
+' Relationships
 roles ||--o{ users : "assigned to"
 users ||--o{ reservations : "books"
 rooms ||--o{ reservations : "hosts"
@@ -227,6 +249,16 @@ users ||--o{ audit_logs : "performs"
 users ||--o{ holiday_requests : "requests"
 users ||--o{ holiday_requests : "reviews" : reviewed_by
 
+' Room <-> Features many-to-many via room_features
+rooms ||--o{ room_features : "has"
+features ||--o{ room_features : "used by"
+room_features }o--|| rooms : "room_id -> rooms.id"
+room_features }o--|| features : "feature_id -> features.id"
+
+' Reservation and room explicit FK
+reservations }o--|| users : "user_id -> users.id"
+reservations }o--|| rooms : "room_id -> rooms.id"
+
 ' Specific FKs (visual)
 holiday_requests }|..|| users : "user_id"
 holiday_requests }|..|| users : "reviewed_by"
@@ -235,4 +267,3 @@ notifications }|..|| users : "user_id"
 notifications }|..o{ notification_preferences : "notification_preferences_snapshot (logical)"
 
 @enduml
-
