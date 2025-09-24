@@ -217,7 +217,7 @@ A Postman collection is included at `postman/OverlookHotel.postman_collection.js
 ### 10. 📈 Logging & Health
 
 - Actuator endpoints (if enabled): `/actuator/health`, `/actuator/metrics`
-- Logs are written to console. Configure file logging in `application.properties` or add logback config.
+- Logs are written to console. Configure file logging in `application.yml` or add logback config.
 
 ### 11. 💾 Backup & Restore
 
@@ -450,6 +450,13 @@ Erreurs de connexion à la base de données : vérifiez les valeurs `spring.data
 Conflits de port : changez `server.port` dans les propriétés.
 
 Erreurs JWT : assurez-vous que `app.jwt.secret` est défini et cohérent entre les exécutions.
+
+## Petits fichiers inclus dans le dépôt
+
+- `run-local.sh` — script idempotent pour créer le rôle et la base (utilisez --no-prompt pour exécution non interactive)
+- `seed-db.sh` — applique `db/seed-data.sql` si présent
+- `env.example` & `environment.properties.example` — fichiers d'exemple pour la configuration de l'équipe
+- `application.yml` & `application-dev.yml` — configuration de base et profil de développement en YAML
 
 ---
 
