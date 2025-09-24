@@ -24,7 +24,7 @@
 
 <div class="section login-section">
     <h2>LOGIN</h2>
-    <form th:action="@{/login}" method="post">
+    <form id="loginForm">
         <label for="email">Email:</label>
         <input type="email" id="email" name="username" required>
 
@@ -46,16 +46,7 @@
     <p>© 2025 Overlook Hotel | Contact: contact@overlookhotel.com | +33 1 23 45 67 89</p>
 </footer>
 
-<script>
-    function togglePassword() {
-        const passwordInput = document.getElementById('password');
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-        } else {
-            passwordInput.type = 'password';
-        }
-    }
-</script>
+<script th:src="@{/js/login.js}"></script>
 
 </body>
 </html>

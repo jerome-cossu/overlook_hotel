@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Room details</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+  <header>
+    <h1>Room details</h1>
+    <nav>
+      <a href="/index">Home</a>
+      <a href="/rooms">Rooms</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Room [[${room.roomNumber}]]</h2>
+    <img th:src="@{'/images/' + ${room.picture}}" alt="Photo chambre" style="max-width:300px;">
+    <p>[[${room.guest}]] guest(s)</p>
+    <p>Price : [[${room.price}]] € / night</p>
+    <p>Occupancy : <span th:text="${room.occupancy} ? 'Occupée' : 'Disponible'"></span></p>
+
+    <h3>Features :</h3>
+    <ul>
+      <li th:each="f : ${room.features}" th:text="${f.name}"></li>
+    </ul>
+
+    <div th:if="${!room.occupancy}">
+      <h3>Book this room</h3>
+      <form th:action="@{/bookings/reserve/{id}(id=${room.id})}" method="post">
+        <label>Check-in :</label>
+        <input type="date" name="startDate" required>
+        <label>Check-out :</label>
+        <input type="date" name="endDate" required>
+        <button type="submit">Book</button>
+      </form>
+    </div>
+    <p th:if="${room.occupancy}">This room is already booked.</p>
+
+    <div id="manager-actions" style="display:none;">
+        <h3>Manager actions</h3>
+        <a th:href="@{/rooms/edit/{id}(id=${room.id})}">Modify</a>
+        <form th:action="@{/rooms/delete/{id}(id=${room.id})}" method="post" style="display:inline;">
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+  </main>
+
+  <script th:src="@{/js/room-detail.js}"></script>
+  
+</body>
+</html>

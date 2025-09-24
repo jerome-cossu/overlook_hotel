@@ -20,7 +20,7 @@
 
 <div class="login-section">
     <h2>REGISTER</h2>
-    <form th:action="@{/register}" method="post">
+    <form id="registerForm">
         <label for="firstName">First Name</label>
         <input type="text" id="firstName" name="firstName" required>
 
@@ -36,6 +36,12 @@
             <input type="checkbox" id="showPassword" onclick="togglePassword()">
         </label>
 
+        <label for="role">Role</label>
+        <select id="role" name="roleId" required>
+            <option value="1">EMPLOYEE</option>
+            <option value="2">CLIENT</option>
+            <option value="3">MANAGER</option>
+        </select>
 
         <button type="submit">Register</button>
     </form>
@@ -45,16 +51,7 @@
     <p>© 2025 Overlook Hotel | Contact: contact@overlookhotel.com | +33 1 23 45 67 89</p>
 </footer>
 
-<script>
-    function togglePassword() {
-        const passwordInput = document.getElementById('password');
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-        } else {
-            passwordInput.type = 'password';
-        }
-    }
-</script>
+<script th:src="@{/js/register.js}"></script>
 
 </body>
 </html>
