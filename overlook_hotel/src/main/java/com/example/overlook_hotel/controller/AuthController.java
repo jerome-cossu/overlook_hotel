@@ -22,7 +22,6 @@ public class AuthController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-    // Injection via constructeur unique
     @Autowired
     public AuthController(UserRepository userRepository, UserService userService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -33,20 +32,20 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @jakarta.validation.Valid RegisterRequest request) {
         User user = userService.register(request);
-        return ResponseEntity.ok("Utilisateur créé : " + user.getEmail());
+        return ResponseEntity.ok("User created : " + user.getEmail());
     }
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Mot de passe incorrect");
+            throw new RuntimeException("Incorrect Password");
         }
 
         Map<String, String> response = new HashMap<>();
-        response.put("message", "Connexion réussie");
+        response.put("message", "connexion done");
         response.put("email", user.getEmail());
         response.put("firstName", user.getFirstName());
         return ResponseEntity.ok(response);

@@ -31,7 +31,7 @@ public class BookingController {
             @RequestParam("checkIn") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
             @RequestParam("checkOut") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut) {
 
-        User mockUser = userService.getMockUser(); // on utilise toujours l'utilisateur ID 1
+        User mockUser = userService.getMockUser();
         bookingService.reserveRoom(roomId, mockUser, checkIn, checkOut);
 
         return "redirect:/rooms/" + roomId;

@@ -26,6 +26,7 @@ public class RoomPageController {
         if (principal != null) {
             User user = userService.findByEmail(principal.getName());
             model.addAttribute("user", user);
+            
         }
 
         return "room-details";

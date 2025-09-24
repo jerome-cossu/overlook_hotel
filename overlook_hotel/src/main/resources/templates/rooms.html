@@ -20,7 +20,7 @@
     </nav>
 </header>
 <header>
-    <h1>Nos Chambres</h1>
+    <h1>Our rooms</h1>
 </header>
 <main>
     <div id="rooms-container"></div>
@@ -30,12 +30,12 @@
     <div class="modal">
         <h2 id="modal-room-number"></h2>
         <img id="modal-picture" src="" alt="Room photo">
-        <p>Capacité: <span id="modal-guest"></span> personne(s)</p>
-        <p>Prix: <span id="modal-price"></span> € / nuit</p>
-        <p>Occupation: <span id="modal-occupancy"></span></p>
+        <p><span id="modal-guest"></span> guest(s)</p>
+        <p>Price: <span id="modal-price"></span> € / night</p>
+        <p>Occupancy: <span id="modal-occupancy"></span></p>
         <ul id="modal-features" class="features"></ul>
         <div id="modal-booking-form"></div>
-        <button onclick="closeModal()">Fermer</button>
+        <button onclick="closeModal()">Close</button>
     </div>
 </div>
 
@@ -50,7 +50,7 @@ async function fetchRooms() {
         const rooms = await res.json();
         displayRooms(rooms);
     } catch (err) {
-        container.innerHTML = '<p>Impossible de charger les chambres.</p>';
+        container.innerHTML = '<p>Unable to log the rooms.</p>';
         console.error(err);
     }
 }
@@ -61,13 +61,13 @@ function displayRooms(rooms) {
         const card = document.createElement('div');
         card.className = 'room-card';
         card.innerHTML = `
-            <h2>Chambre ${room.roomNumber}</h2>
-            <p>Capacité: ${room.guest} personne(s)</p>
+            <h2>Room ${room.roomNumber}</h2>
+            <p>${room.guest} guest(s)</p>
             <img src="/images/${room.picture}" alt="photo" id="room-picture"/>
             <ul class="features">
                 ${room.features.map(f => `<li>${f.name}</li>`).join('')}
             </ul>
-            <a href="/rooms/${room.id}" class="details-btn">Détails</a>
+            <a href="/rooms/${room.id}" class="details-btn">Details</a>
 
             
         `;
@@ -77,11 +77,11 @@ function displayRooms(rooms) {
 
 
 function showDetails(room) {
-    document.getElementById('modal-room-number').textContent = `Chambre ${room.roomNumber}`;
+    document.getElementById('modal-room-number').textContent = `Room ${room.roomNumber}`;
     document.getElementById('modal-guest').textContent = room.guest;
     document.getElementById('modal-price').textContent = room.price;
     document.getElementById('modal-picture').setAttribute("src", "/images/" + room.picture);
-    document.getElementById('modal-occupancy').textContent = room.occupancy ? 'Occupée' : 'Disponible';
+    document.getElementById('modal-occupancy').textContent = room.occupancy ? 'Occupied' : 'Free';
     const featureList = document.getElementById('modal-features');
     featureList.innerHTML = room.features.map(f => `<li>${f.name}</li>`).join('');
         const bookingContainer = document.getElementById('modal-booking-form');
@@ -92,11 +92,10 @@ function showDetails(room) {
                 <input type="date" name="checkIn" required>
                 <label>Check-out:</label>
                 <input type="date" name="checkOut" required>
-                <button type="submit">Réserver</button>
+                <button type="submit">Book</button>
             </form>
         `;
 
-        // Ajout de l'événement submit
         const form = document.getElementById(`booking-form-${room.id}`);
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -113,20 +112,20 @@ function showDetails(room) {
                 });
 
                 if (res.ok) {
-                    alert('Réservation effectuée !');
+                    alert('Booking confirmed !');
                     closeModal();
                     fetchRooms(); // actualiser l'affichage des chambres
                 } else {
-                    alert('Erreur lors de la réservation.');
+                    alert('Error while booking');
                 }
             } catch (err) {
                 console.error(err);
-                alert('Erreur réseau.');
+                alert('Network error ');
             }
         });
 
     } else {
-        bookingContainer.innerHTML = '<p>Chambre déjà réservée</p>';
+        bookingContainer.innerHTML = '<p>Room already booked</p>';
     }
     modal.style.display = 'flex';
     
@@ -144,8 +143,8 @@ fetchRooms();
         const nav = document.querySelector("nav");
         const loginBtn = nav.querySelector(".login-btn");
         if (loginBtn) {
-            loginBtn.textContent = "Bonjour " + user.firstName;
-            loginBtn.removeAttribute("href"); // facultatif
+            loginBtn.textContent = "Hello " + user.firstName;
+            loginBtn.removeAttribute("href");
         }
     }
 

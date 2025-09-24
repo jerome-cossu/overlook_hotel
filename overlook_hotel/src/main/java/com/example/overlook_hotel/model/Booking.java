@@ -1,11 +1,9 @@
 package com.example.overlook_hotel.model;
-// import java.util.HashSet;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-// import java.util.Set;
 
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonManagedReference;

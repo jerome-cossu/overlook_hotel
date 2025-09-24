@@ -10,19 +10,19 @@ import lombok.Data;
 @Data
 public class RegisterRequest {
 
-    @NotBlank(message = "L'email est obligatoire")
-    @Email(message = "L'email doit être valide")
+    @NotBlank(message = "Email is missing")
+    @Email(message = "Invalid email")
     private String email;
 
-    @NotBlank(message = "Le mot de passe est obligatoire")
-    @Size(min = 6, message = "Le mot de passe doit contenir au moins 6 caractères")
+    @NotBlank(message = "Password is missing")
+    @Size(min = 6, message = "The password should be at least 6 char")
     private String password;
 
-    @NotBlank(message = "Le nom est obligatoire")
+    @NotBlank(message = "Last name is missins")
     @JsonProperty("first_name")
     private String firstName;
 
-    @NotBlank(message = "Le prénom est obligatoire")
+    @NotBlank(message = "First name is missing")
     @JsonProperty("last_name")
     private String lastName;
 

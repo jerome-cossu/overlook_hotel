@@ -64,16 +64,14 @@
         const nav = document.querySelector("nav");
         const loginBtn = nav.querySelector(".login-btn");
         if (loginBtn) {
-            loginBtn.textContent = "Bonjour " + user.firstName;
-            loginBtn.removeAttribute("href"); // facultatif
+            loginBtn.textContent = "Hello " + user.firstName;
+            loginBtn.removeAttribute("href");
         }
     }
     function logout() {
-        // Supprime toutes les infos de l'utilisateur dans le localStorage
-        localStorage.removeItem("user");   // si tu stockes un objet user
-        localStorage.removeItem("token");  // si tu stockes un token JWT
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
 
-        // Redirige vers la page de login
         window.location.href = "/login";
     }
 </script>

@@ -29,7 +29,7 @@ public class BookingService {
             throw new RuntimeException("Room already booked");
         }
 
-        // Mettre la chambre en occupée
+        // Mettre la chambre en occupée selon la date
         LocalDate today = LocalDate.now();
         if ((today.isAfter(checkIn) || today.isEqual(checkIn)) 
         && (today.isBefore(checkOut) || today.isEqual(checkOut))) {

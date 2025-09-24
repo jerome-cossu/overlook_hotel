@@ -7,7 +7,6 @@ import com.example.overlook_hotel.repository.RoleRepository;
 import com.example.overlook_hotel.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -21,7 +20,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public User register(RegisterRequest request) {
-        // Gestion du rôle avec fallback sur le rôle par défaut
         Role role;
         if (request.getRoleId() != null) {
             role = roleRepository.findById(request.getRoleId())
@@ -88,10 +86,5 @@ public class UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found with email " + email));
-    }
-
-    public User getMockUser() {
-        return userRepository.findById(6L)
-                .orElseThrow(() -> new RuntimeException("User with ID 6 not found"));
     }
 }

@@ -77,15 +77,15 @@
             });
 
             if (response.ok) {
-                alert("Inscription réussie !");
+                alert("Signing up done !");
                 window.location.href = "/login";
             } else {
                 const error = await response.json();
-                alert("Erreur : " + (error.message || "Impossible de créer le compte"));
+                alert("Error : " + (error.message || "Unable to create account."));
             }
         } catch (err) {
             console.error(err);
-            alert("Une erreur réseau est survenue");
+            alert("An error occured.");
         }
     });
 </script>

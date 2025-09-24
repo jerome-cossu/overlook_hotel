@@ -71,23 +71,21 @@
                 const result = await response.json(); 
                 localStorage.setItem("user", JSON.stringify({
                     email: result.email,
-                    firstName: result.firstName // ou result.user.firstName selon ton back
+                    firstName: result.firstName
                 }));
-                alert("Connexion réussie !");
+                alert("Connexion done !");
                 console.log("Login result:", result);
 
-                // si ton back envoie un token JWT par ex :
                 localStorage.setItem("token", result.token);
 
-                // puis redirection
                 window.location.href = "/home";
             } else {
                 const error = await response.json();
-                alert("Erreur : " + (error.message || "Email ou mot de passe incorrect"));
+                alert("Error : " + (error.message || "Incorrect email or password"));
             }
         } catch (err) {
             console.error(err);
-            alert("Une erreur réseau est survenue");
+            alert("Network error");
         }
     });
 </script>
