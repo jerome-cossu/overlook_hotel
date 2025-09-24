@@ -34,4 +34,5 @@ build/
 
 ### environment-specific variables ###
 env.properties
+environment.properties
 .env
