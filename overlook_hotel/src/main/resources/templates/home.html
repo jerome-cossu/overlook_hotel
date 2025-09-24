@@ -17,6 +17,7 @@
         <a href="#">Booking</a>
         <a href="#">Contact</a>
         <a href="/login" class="login-btn">Login</a>
+        <a href="#" onclick="logout()">Logout</a>
     </nav>
 </header>
 
@@ -66,6 +67,14 @@
             loginBtn.textContent = "Bonjour " + user.firstName;
             loginBtn.removeAttribute("href"); // facultatif
         }
+    }
+    function logout() {
+        // Supprime toutes les infos de l'utilisateur dans le localStorage
+        localStorage.removeItem("user");   // si tu stockes un objet user
+        localStorage.removeItem("token");  // si tu stockes un token JWT
+
+        // Redirige vers la page de login
+        window.location.href = "/login";
     }
 </script>
 
