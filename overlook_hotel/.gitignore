@@ -36,3 +36,5 @@ build/
 env.properties
 environment.properties
 .env
+
+local overlook hotel .session.sql
