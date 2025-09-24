@@ -93,13 +93,13 @@ CREATE INDEX idx_users_email ON users(email);
 -- Applies to users, rooms, reservations
 -- Note: version starts at 1, increments by 1 on each update
 CREATE OR REPLACE FUNCTION bump_version_and_timestamp()
-RETURNS TRIGGER AS $
+RETURNS TRIGGER AS $$
 BEGIN
   NEW.version := COALESCE(OLD.version, 0) + 1;
   NEW.updated_at := now();
   RETURN NEW;
 END;
-$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trg_bump_users BEFORE UPDATE ON users
 FOR EACH ROW EXECUTE FUNCTION bump_version_and_timestamp();
