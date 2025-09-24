@@ -1,0 +1,11 @@
+# environment.properties.example — example properties file some IDEs use (place in project root or according to your IDE)
+# Do NOT commit real secrets. Copy to environment.properties and update values locally.
+
+DB_USER=overlook_user
+DB_PASSWORD=overlook_pass
+DB_NAME=overlook_hotel
+DB_HOST=localhost
+DB_PORT=5432
+
+APP_JWT_SECRET=change_this_to_a_strong_secret
+SPRING_PROFILES_ACTIVE=dev

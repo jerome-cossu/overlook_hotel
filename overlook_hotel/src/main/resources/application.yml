@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/overlook_hotel
+    username: overlook_user
+    password: ${DB_PASSWORD:overlook_pass}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    show-sql: false
+
+# Use environment variable for secrets in non-demo environments
+app:
+  jwt:
+    secret: ${APP_JWT_SECRET:change_this_to_a_strong_secret}
+    access-token-expiry-minutes: 15
+    refresh-token-expiry-days: 7
+
+server:
+  port: 8080
