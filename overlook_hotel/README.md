@@ -103,6 +103,17 @@ DB_USER=overlook_user DB_PASS=overlook_pass DB_NAME=overlook_hotel ./run-local.s
 ```
 The script will create the role and database if they don't exist and grant privileges.
 
+
+**(optional) if you get "permission denied" when running the repository scripts, run:*
+
+```bash
+# Make all included scripts executable
+chmod +x run-local.sh seed-db.sh
+
+# Or make a single script executable
+chmod +x run-local.sh
+```
+
 **Option B** — manual:
 
 Switch to the `postgres` user (Linux/macOS):
@@ -261,16 +272,27 @@ Une plateforme de gestion hôtelière sécurisée et basée sur des rôles.
 
 Les clients de l'hôtel peuvent découvrir et réserver des chambres et des espaces d'événements. Le personnel et les gestionnaires peuvent effectuer les opérations hôtelières essentielles.
 
-## 🛠 Configuration
+## Fonctionnalités clés
+
+⭐ Accès basé sur les rôles — différents niveaux d'accès pour les clients, le personnel et les gestionnaires.
+
+⭐ Réservation de chambres et d'espaces — les clients peuvent rechercher et réserver des hébergements et des salles d'événements.
+
+⭐ Opérations principales — le personnel peut gérer les réservations, les enregistrements (check-in) et autres opérations hôtelières.
+
+⭐ Sécurité — utilise JWT pour une authentification et une autorisation sécurisées.
+
+## 🛠 Installation & Configuration
 
 ### 1. ✅ Prérequis
 
 Avant de commencer, assurez-vous d'avoir les logiciels suivants installés :
 
-- **Java 17 (ou version ultérieure)**
+- **Java 17** (ou version ultérieure)
 - **Apache Maven**
 - **PostgreSQL 12+**
 - **Git**
+- **psql** (client PostgreSQL) — généralement installé avec PostgreSQL
 
 ### 2. 📦 Cloner le Répertoire
 
@@ -278,10 +300,47 @@ Avant de commencer, assurez-vous d'avoir les logiciels suivants installés :
 git clone https://github.com/jerome-cossu/overlook_hotel.git
 cd overlook_hotel
 ```
+### 3. Variables d'environnement (recommandé)
 
-### 3. 🗄️ Configurer la Base de Données
+Pour garder les secrets hors du contrôle de version, utilisez des variables d'environnement. Un fichier exemple est fourni sous `env.example` et `environment.properties.example` — copiez-en un vers `.env` ou `environment.properties` (selon votre workflow) et modifiez les valeurs localement.
 
-#### 3.1. Démarrer PostgreSQL
+Créez un `.env` local (optionnel, si vous utilisez un outil pour charger `.env`) ou exportez les variables dans votre shell :
+
+`.env` (exemple — NE PAS committer de vrais secrets)
+
+``` properties
+DB_USER=overlook_user
+DB_PASSWORD=overlook_pass
+DB_NAME=overlook_hotel
+DB_HOST=localhost
+DB_PORT=5432
+
+APP_JWT_SECRET=change_this_to_a_strong_secret
+SPRING_PROFILES_ACTIVE=dev
+```
+
+
+Ou exportez dans un shell POSIX :
+
+``` bash
+export DB_USER=overlook_user
+export DB_PASSWORD=overlook_pass
+export DB_NAME=overlook_hotel
+export DB_HOST=localhost
+export DB_PORT=5432
+export APP_JWT_SECRET=change_this_to_a_strong_secret
+export SPRING_PROFILES_ACTIVE=dev
+```
+PowerShell (Windows) :
+
+``` powershell
+$env:DB_PASSWORD = "overlook_pass"
+$env:SPRING_PROFILES_ACTIVE = "dev"
+```
+
+### 4. 🗄️ Configurer la Base de Données
+
+#### 4.1. Démarrer PostgreSQL
 
 MacOS (Homebrew) :
 
@@ -299,15 +358,38 @@ Windows :
 
 Démarrez le service “PostgreSQL”, ou lancez pgAdmin / SQL Shell (psql).
 
-#### 3.2. Créer un Utilisateur et une Base de Données
+#### 4.2. Créer un Utilisateur et une Base de Données (automatique ou manuel)
 
-Passez à l'utilisateur `postgres` (Linux/macOS) :
+**Option A** — automatique (recommandé pour le développement local) : exécutez le script inclus pour créer le rôle et la base de données de manière idempotente :
+
+``` bash
+./run-local.sh   # interactif
+
+# ou non interactif :
+DB_USER=overlook_user DB_PASS=overlook_pass DB_NAME=overlook_hotel ./run-local.sh --no-prompt
+
+```
+Le script créera le rôle et la base de données s'ils n'existent pas et accordera les privilèges.
+
+**(optionnel) Si vous obtenez "permission denied" en exécutant les scripts du dépôt, exécutez :*
+
+```bash
+# Rendre tous les scripts inclus exécutables
+chmod +x run-local.sh seed-db.sh
+
+# Ou rendre un seul script exécutable
+chmod +x run-local.sh
+```
+
+**Option B** — manual:
+
+Basculez vers l'utilisateur `postgres` (Linux/macOS) :
 
 ``` bash
 sudo -i -u postgres
 ```
 
-Exécutez ces commandes SQL (remplacez les noms/mots de passe si nécessaire) :
+Puis exécutez :
 
 ``` sql
 -- Créer un utilisateur d'application
@@ -327,56 +409,42 @@ Quittez :
 exit
 ```
 
-#### 3.3 Initialiser le Schéma & (Optionnel) Charger des Données
+#### 4.3 Initialiser le Schéma & (Optionnel) Charger des Données
 
-Maintenant que votre base de données et votre utilisateur existent, appliquez le SQL de schéma inclus dans `db/schema.sql` :
+Deux approches :
+
+- Laisser Spring créer le schéma automatiquement (dev seulement) : activez le profil dev (voir YAML ci-dessous) et lancez l'application — Spring JPA créera/supprimera le schéma quand SPRING_PROFILES_ACTIVE=dev et ddl-auto=create-drop.
+
+- Appliquer le schéma manuellement pour une initialisation contrôlée :
 
 ``` bash 
-psql -U overlook_user -d overlook_hotel -f db/schema.sql
+PGPASSWORD="${DB_PASSWORD:-overlook_pass}" psql -U ${DB_USER:-overlook_user} -d ${DB_NAME:-overlook_hotel} -f db/schema.sql
 ```
-(Optionnel) Chargez des données de démonstration et un utilisateur administrateur :
+(Optionnel) Charger des données de démonstration :
 
 ``` bash
-psql -U overlook_user -d overlook_hotel -f db/seed-data.sql
+./seed-db.sh
+# ou
+PGPASSWORD="${DB_PASSWORD:-overlook_pass}" psql -U ${DB_USER:-overlook_user} -d ${DB_NAME:-overlook_hotel} -f db/seed-data.sql
 ```
 
-### 4. ⚙️ Configurer l'Application
+### 5. ⚙️ Configurer l'Application (YAML)
 
-Copiez le fichier de propriétés d'exemple :
+Le projet inclut des configurations YAML. Copiez et modifiez les valeurs spécifiques à l'environnement si nécessaire.
+
+Configuration de base : src/main/resources/application.yml (déjà fournie dans le dépôt). Elle lit les identifiants DB depuis les variables d'environnement lorsqu'elles sont disponibles.
+
+Profil de développement : src/main/resources/application-dev.yml active l'auto-DDL JPA pour le développement local. Activez-le localement avec :
 
 ``` bash
-cp src/main/resources/application.properties.example \
-   src/main/resources/application.properties
+export SPRING_PROFILES_ACTIVE=dev
 ```
-Ouvrez `src/main/resources/application.properties` et définissez au minimum :
+**Important :**
 
-``` properties
-# Source de données Spring
-spring.datasource.url=jdbc:postgresql://localhost:5432/overlook_hotel
-spring.datasource.username=overlook_user
-spring.datasource.password=overlook_pass
-spring.datasource.driver-class-name=org.postgresql.Driver
+- N'utilisez pas `create/create-drop` en production. Utilisez `ddl-auto=validate` en production et un outil de migration (Flyway/Liquibase) ou des migrations SQL appliquées par le CI.
+- Gardez `APP_JWT_SECRET` hors du contrôle de version — définissez-le via des variables d'environnement ou votre gestionnaire de secrets.
 
-# JPA
-spring.jpa.hibernate.ddl-auto=validate
-spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
-spring.jpa.show-sql=false
-
-# JWT / Sécurité
-app.jwt.secret=change_this_to_a_strong_secret
-app.jwt.access-token-expiry-minutes=15
-app.jwt.refresh-token-expiry-days=7
-
-# Serveur
-server.port=8080
-```
-
-**Remarques :**
-
-- Utilisez une valeur aléatoire forte pour `app.jwt.secret` dans tout environnement non-démonstration.
-- Pour le développement uniquement, vous pouvez définir `spring.jpa.hibernate.ddl-auto=create-drop` pour recréer automatiquement le schéma.
-
-### 5. 🚀 Construire et Exécuter
+### 6. 🚀 Construire et Exécuter
 
 Construire :
 ``` bash
@@ -386,6 +454,7 @@ mvn clean package -DskipTests
 Exécuter :
 
 ``` bash 
+export SPRING_PROFILES_ACTIVE=dev
 mvn spring-boot:run
 # ou
 java -jar target/overlook-hotel.jar
@@ -393,7 +462,7 @@ java -jar target/overlook-hotel.jar
 
 Ouvrir : http://localhost:8080
 
-### 6. 🌱 Comptes de Démonstration Préchargés
+### 7. 🌱 Comptes de Démonstration Préchargés
 
 Si vous avez importé `db/seed-data.sql`, ces identifiants de démonstration sont créés :
 
@@ -409,9 +478,9 @@ Si vous avez importé `db/seed-data.sql`, ces identifiants de démonstration son
         email: guest2@overlook.test
         mot de passe: Password123!
 
-Changez ces identifiants après la première connexion dans un environnement réel.
+Changez-les après la première connexion en environnement réel.
 
-### 7. 🔍 Exécution des Tests
+### 8. 🔍 Exécution des Tests
 
 Tests unitaires et d'intégration :
 
@@ -419,17 +488,17 @@ Tests unitaires et d'intégration :
 mvn test
 ```
 
-### 8. 📬 Collection Postman
+### 9. 📬 Collection Postman
 
 Une collection Postman est incluse dans `postman/OverlookHotel.postman_collection.json`. Importez-la pour tester les flux API (enregistrer → se connecter → rechercher des chambres → créer une réservation → annuler).
 
-### 9. 📈 Journalisation & Santé
+### 10. 📈 Journalisation & Santé
 
 - Points de terminaison de l'Actuator (si activés) : `/actuator/health`, `/actuator/metrics`
-- Les journaux sont écrits dans la console. Configurez la journalisation dans un fichier dans `application.properties` ou ajoutez une configuration logback.
+- Les journaux sont écrits dans la console. Configurez la journalisation dans un fichier dans `application.yml` ou ajoutez une configuration logback.
 
 
-### 10. 💾 Sauvegarde & Restauration
+### 11. 💾 Sauvegarde & Restauration
 
 Sauvegarde manuelle (pg_dump) :
 
@@ -443,13 +512,11 @@ Restauration :
 pg_restore -U overlook_user -d overlook_hotel -c overlook_hotel.dump
 ```
 
-### 11. ⚠️ Dépannage
+### 12. ⚠️ Dépannage
 
-Erreurs de connexion à la base de données : vérifiez les valeurs `spring.datasource.*`, le service PostgreSQL et les paramètres réseau/pare-feu.
-
-Conflits de port : changez `server.port` dans les propriétés.
-
-Erreurs JWT : assurez-vous que `app.jwt.secret` est défini et cohérent entre les exécutions.
+- Erreurs de connexion DB : vérifiez les variables d'environnement (`DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`), le service PostgreSQL et le réseau/pare-feu.
+- Conflits de ports : changez `server.port` dans `application.yml`.
+- Erreurs JWT : assurez-vous que `APP_JWT_SECRET` est défini et cohérent entre les exécutions.
 
 ## Petits fichiers inclus dans le dépôt
 
@@ -460,4 +527,4 @@ Erreurs JWT : assurez-vous que `app.jwt.secret` est défini et cohérent entre l
 
 ---
 
-🎉 Vous êtes prêt ! Connectez-vous avec l'administrateur préchargé (si vous avez exécuté `seed-data.sql`), et commencez à gérer votre hôtel. Si vous rencontrez des problèmes ou avez des suggestions, n'hésitez pas à contribuer ou à les signaler ! 🎉
+🎉 C'est tout — prêt pour le développement local ! Si vous rencontrez des problèmes ou avez des suggestions, n'hésitez pas à contribuer ou à les signaler ! 🎉
