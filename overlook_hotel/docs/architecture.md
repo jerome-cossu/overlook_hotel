@@ -41,6 +41,7 @@ This document describes the repository architecture, package responsibilities, k
                         PasswordResetController.java
                     api/
                         RoomController.java
+                        FeatureController.java
                         ReservationController.java
                         ReportController.java
                         UserController.java
@@ -77,9 +78,14 @@ This document describes the repository architecture, package responsibilities, k
 
                 model/
                     Role.java
+                    RoleName.java
                     User.java
                     Room.java
+                    RoomStatus.java 
+                    Feature.java
+                    RoomFeature.java
                     Reservation.java
+                    ReservationStatus.java
                     RoomStatusLog.java
                     AuditLog.java
 
@@ -87,6 +93,8 @@ This document describes the repository architecture, package responsibilities, k
                     RoleRepository.java
                     UserRepository.java
                     RoomRepository.java
+                    FeatureRepository.java
+                    RoomFeatureRepository.java
                     ReservationRepository.java
                     RoomStatusLogRepository.java
 
@@ -94,9 +102,11 @@ This document describes the repository architecture, package responsibilities, k
                     AuthService.java
                     UserService.java
                     RoomService.java
+                    FeatureService.java
                     RoomAvailabilityService.java
                     ReservationService.java
                     ReportService.java
+                    NotificationService.java
                     DataLoader.java <-- seeds demo data on dev profile
 
                 util/
@@ -125,8 +135,9 @@ This document describes the repository architecture, package responsibilities, k
                 css/
                 js/
                 img/
-            application.properties.example
-            application.properties <-- user copies from example per README
+            application-dev.yml
+            application.yml
+
     test/
         java/
             com.overlook.app/
@@ -149,6 +160,8 @@ This document describes the repository architecture, package responsibilities, k
             ER_MPD.png
 
     .gitignore
+    environment.properties.example
+    env.example
     mvnw
     mvnw.cmd
     pom.xml
@@ -196,6 +209,21 @@ This document describes the repository architecture, package responsibilities, k
 
 ### model (JPA entities) 
 
+The JPA model reflects core domain objects as entities with clear ownership and relationships: User (with Role), Room, Feature, RoomFeature (join), and Reservation. 
+
+Entities use JPA annotations for primary keys, relationships, and optimistic locking via @Version; auditing fields (createdAt, updatedAt) are mapped and updated by listeners or DB triggers. Design choices:
+
+- User: stores credentials (passwordHash), contact/profile fields, role relation, and audit fields. Expose via DTOs to avoid leaking sensitive fields.
+- Role: simple entity used for RBAC; referenced by User.
+- Room: captures roomNumber, type, capacity, basePrice, status, accessibility, and a features collection (ManyToMany via RoomFeature). Index frequently queried attributes (roomNumber, status).
+- Feature / RoomFeature: Feature is reusable capability/amenity; RoomFeature is an explicit join entity to allow metadata (addedAt, source) and a composite unique constraint.
+- Reservation: references User and Room, enforces date constraints (checkIn/checkOut), stores guestsCount, totalPrice and status. Use @Check/validation and database constraints plus indexed room-date columns to optimize availability queries.
+    
+- Concurrency & Integrity: use @Version for optimistic locking, DB CHECK constraints for date validity, and repository-level availability checks (select for update or versioned updates) to prevent double-booking.
+- DTOs & Mapping: map entities to slim DTOs for controller responses; avoid returning passwordHash and internal version/timestamps unless needed.
+- Extensibility: keep entities modular to add Events, Facilities, Loyalty and Audit entities later without breaking core booking flows.
+
+
     User: id, email (unique), passwordHash, firstName, lastName, phone, roles, enabled, createdAt, updatedAt.
     Role: id, name (GUEST, EMPLOYEE, MANAGER).
     Room: id, number (unique), type, capacity, pricePerNight, amenities (text), status (ENUM: AVAILABLE, OCCUPIED, CLEANING, MAINTENANCE).
@@ -204,12 +232,8 @@ This document describes the repository architecture, package responsibilities, k
     AuditLog: id, userId, operation, targetType, targetId, timestamp.
 
 ### Entity design 
-is deliberately simple: relations are many-to-one where appropriate. Dates use LocalDate.
-repository (Spring Data JPA)
 
-    RoleRepository, UserRepository, RoomRepository, ReservationRepository, RoomStatusLogRepository.
-    ReservationRepository must expose a conflict-check query:
-        existsConflictingReservation(roomId, startDate, endDate) This query returns true if any reservation overlaps the requested interval and its status is BOOKED or CHECKED_IN.
+Entity design focuses on clear, normalized domain models that reflect real hotel concepts (User, Role, Room, Feature, Reservation, etc.), enforce data integrity with constraints and optimistic locking, and keep relationships explicit (FKs and join tables for many-to-many like room_features). Each entity maps to a layered service and repository, uses immutable auditing fields (created_at/updated_at/version) for concurrency control, and stores minimal denormalized fields (e.g., reservation total_price, lead_guest_name) to optimize read paths. Design decisions prioritize preventing double-booking (date checks, indexed room-date queries, and version-based updates), extensibility for features/events/loyalty, and security/privacy by keeping sensitive data hashed or tokenized and limiting direct exposure through DTOs.
 
 ### service
 

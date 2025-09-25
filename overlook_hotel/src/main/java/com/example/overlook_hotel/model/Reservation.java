@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "bookings")
+@Table(name = "reservations")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,6 +31,6 @@ public class Reservation {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "booking")
+    @OneToMany(mappedBy = "reservation")
     private List<Room> rooms = new ArrayList<>();
 }

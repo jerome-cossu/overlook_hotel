@@ -1,50 +1,64 @@
 package com.example.overlook_hotel.model;
 
-import java.util.ArrayList;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import java.util.List;
+import lombok.*;
 
+import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "users")
-@Data
+@Table(name = "users", indexes = {
+    @Index(columnList = "email")
+})
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
     private Long id;
-
-    @Column(name = "first_name", nullable = false)
-    @JsonProperty("first_name")
-    private String firstName;
-
-    @Column(name = "last_name", nullable = false)
-    @JsonProperty("last_name")
-    private String lastName;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private String password;
+    private String username;
 
-    @Column(name = "loyalty_points", nullable = true)
-    @JsonProperty("loyalty_points")
-    private int loyaltyPoints;
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id", nullable = false)
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "date_of_birth")
+    private LocalDate dateOfBirth;
+
+    @Column(name = "profile_photo_url")
+    private String profilePhotoUrl;
+
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive = true;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
     private Role role;
 
-    @OneToMany(mappedBy = "user")  // relation inverse
-    private List<Reservation> bookings = new ArrayList<>();
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt = Instant.now();
+
+    @Column(name = "updated_at")
+    private Instant updatedAt = Instant.now();
+
+    @Column(name = "last_login")
+    private Instant lastLogin;
+
+    @Version
+    private Integer version;
 }

@@ -1,34 +1,60 @@
 package com.example.overlook_hotel.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
+
+import java.time.Instant;
+import java.math.BigDecimal;
 
 @Entity
-@Table(name = "rooms")
-@Data
+@Table(name = "rooms", indexes = {
+    @Index(columnList = "room_number"),
+    @Index(columnList = "room_type")
+})
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "room_id")
-    private int id;
+    private Long id;
 
-    @Column(nullable = false, unique = true, name = "room_number")
-    private int roomNumber;
+    @Column(name = "room_number", nullable = false, unique = true)
+    private String roomNumber;
 
+    @Column(name = "room_type")
+    private String roomType;
+
+    @Builder.Default
     @Column(nullable = false)
-    private int guest;
+    private Integer capacity = 1;
 
+    @Builder.Default
+    @Column(name = "base_price", precision = 10, scale = 2)
+    private BigDecimal basePrice = BigDecimal.ZERO;
+
+    private String description;
+
+    @Column(name = "floor_number")
+    private Integer floorNumber;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private boolean occupancy;
+    private RoomStatus status = RoomStatus.AVAILABLE;
 
-    @Column(nullable = false)
-    private int price;
+    @Builder.Default
+    @Column(name = "is_accessible", nullable = false)
+    private Boolean isAccessible = false;
 
-    @ManyToOne
-    @JoinColumn(name = "booking_id")
-    private Reservation booking;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt = Instant.now();
+
+    @Column(name = "updated_at")
+    private Instant updatedAt = Instant.now();
+
+    @Version
+    private Integer version;
 }
