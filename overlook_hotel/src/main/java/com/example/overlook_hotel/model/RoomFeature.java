@@ -28,6 +28,7 @@ public class RoomFeature {
     private Feature feature;
 
     @Column(name = "added_at", nullable = false)
+    @Builder.Default
     private Instant addedAt = Instant.now();
 
     private String source;
