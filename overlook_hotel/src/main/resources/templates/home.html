@@ -17,6 +17,7 @@
         <a href="#">Booking</a>
         <a href="#">Contact</a>
         <a href="/login" class="login-btn">Login</a>
+        <a href="#" onclick="logout()">Logout</a>
     </nav>
 </header>
 
@@ -55,6 +56,25 @@
 <footer>
     <p>© 2025 Overlook Hotel | Contact: contact@overlookhotel.com | +33 1 23 45 67 89</p>
 </footer>
+
+<script>
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user) {
+        const nav = document.querySelector("nav");
+        const loginBtn = nav.querySelector(".login-btn");
+        if (loginBtn) {
+            loginBtn.textContent = "Hello " + user.firstName;
+            loginBtn.removeAttribute("href");
+        }
+    }
+    function logout() {
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+
+        window.location.href = "/login";
+    }
+</script>
 
 </body>
 </html>
