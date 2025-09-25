@@ -1,11 +1,19 @@
 package com.example.overlook_hotel.repository;
+
 import com.example.overlook_hotel.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
+import java.util.List;
+import java.util.Optional;
+
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByEmail(String email);
-    User findByLastName(String lastName);
-    User findByFirstName(String firstName);
+    Optional<User> findByEmail(String email);
+    boolean existsByEmail(String email);
+
+    // return list because names are not unique
+    List<User> findAllByLastName(String lastName);
+    List<User> findAllByFirstName(String firstName);
+
+    // case insensitive search
+    Optional<User> findByEmailIgnoreCase(String email);
 }
