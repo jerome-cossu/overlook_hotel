@@ -13,4 +13,4 @@ spring:
 # In dev, use a less strict JWT secret (still keep secure in shared environments)
 app:
   jwt:
-    secret: ${APP_JWT_SECRET:dev_change_me}
+    secret: ${JWT_SECRET:dev_change_me}

@@ -18,7 +18,7 @@ spring:
 # Use environment variable for secrets in non-demo environments
 app:
   jwt:
-    secret: ${APP_JWT_SECRET:change_this_to_a_strong_secret}
+    secret: ${JWT_SECRET:change_this_to_a_strong_secret}
     access-token-expiry-minutes: 15
     refresh-token-expiry-days: 7
 
