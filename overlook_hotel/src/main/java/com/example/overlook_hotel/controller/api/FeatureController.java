@@ -1,6 +1,7 @@
 package com.example.overlook_hotel.controller.api;
-import com.example.overlook_hotel.model.Feature;
-import com.example.overlook_hotel.service.FeatureService;
+import com.example.overlook_hotel.model.entity.Feature;
+import com.example.overlook_hotel.service.hotel.FeatureService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;

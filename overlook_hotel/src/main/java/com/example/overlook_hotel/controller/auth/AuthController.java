@@ -1,7 +1,8 @@
 package com.example.overlook_hotel.controller.auth;
 
-import com.example.overlook_hotel.model.User;
-import com.example.overlook_hotel.service.UserService;
+import com.example.overlook_hotel.model.entity.User;
+import com.example.overlook_hotel.service.hotel.UserService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
