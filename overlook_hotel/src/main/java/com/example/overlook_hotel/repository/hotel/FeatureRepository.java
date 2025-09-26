@@ -1,9 +1,7 @@
 package com.example.overlook_hotel.repository.hotel;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.example.overlook_hotel.model.entity.Feature;
-
+import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface FeatureRepository extends JpaRepository<Feature, Long> {
