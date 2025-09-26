@@ -49,7 +49,7 @@ DB_NAME=overlook_hotel
 DB_HOST=localhost
 DB_PORT=5432
 
-APP_JWT_SECRET=change_this_to_a_strong_secret
+JWT_SECRET=change_this_to_a_strong_secret
 SPRING_PROFILES_ACTIVE=dev
 ```
 Or export in POSIX shell:
@@ -60,7 +60,7 @@ export DB_PASSWORD=overlook_pass
 export DB_NAME=overlook_hotel
 export DB_HOST=localhost
 export DB_PORT=5432
-export APP_JWT_SECRET=change_this_to_a_strong_secret
+export JWT_SECRET=change_this_to_a_strong_secret
 export SPRING_PROFILES_ACTIVE=dev
 ```
 Windows PowerShell:
@@ -175,7 +175,7 @@ export SPRING_PROFILES_ACTIVE=dev
 **Important:**
 
 - Do not use `create/create-drop` in production. Use `ddl-auto=validate` in production and a migration tool (Flyway/Liquibase) or CI-applied SQL migrations.
-- Keep `APP_JWT_SECRET` out of source control — set it via environment variables or your secrets manager.
+- Keep `JWT_SECRET` out of source control — set it via environment variables or your secrets manager.
 
 ### 6. 🚀 Build and Run
 
@@ -248,7 +248,7 @@ pg_restore -U overlook_user -d overlook_hotel -c overlook_hotel.dump
 
 - DB connection errors: verify environment variables (`DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`), PostgreSQL service, and network/firewall.
 - Port conflicts: change `server.port` in `application.yml`.
-- JWT errors: ensure `APP_JWT_SECRET`is set and consistent between runs.
+- JWT errors: ensure `JWT_SECRET`is set and consistent between runs.
 
 ---
 
@@ -315,7 +315,7 @@ DB_NAME=overlook_hotel
 DB_HOST=localhost
 DB_PORT=5432
 
-APP_JWT_SECRET=change_this_to_a_strong_secret
+JWT_SECRET=change_this_to_a_strong_secret
 SPRING_PROFILES_ACTIVE=dev
 ```
 
@@ -328,7 +328,7 @@ export DB_PASSWORD=overlook_pass
 export DB_NAME=overlook_hotel
 export DB_HOST=localhost
 export DB_PORT=5432
-export APP_JWT_SECRET=change_this_to_a_strong_secret
+export JWT_SECRET=change_this_to_a_strong_secret
 export SPRING_PROFILES_ACTIVE=dev
 ```
 PowerShell (Windows) :
@@ -442,7 +442,7 @@ export SPRING_PROFILES_ACTIVE=dev
 **Important :**
 
 - N'utilisez pas `create/create-drop` en production. Utilisez `ddl-auto=validate` en production et un outil de migration (Flyway/Liquibase) ou des migrations SQL appliquées par le CI.
-- Gardez `APP_JWT_SECRET` hors du contrôle de version — définissez-le via des variables d'environnement ou votre gestionnaire de secrets.
+- Gardez `JWT_SECRET` hors du contrôle de version — définissez-le via des variables d'environnement ou votre gestionnaire de secrets.
 
 ### 6. 🚀 Construire et Exécuter
 
@@ -516,7 +516,7 @@ pg_restore -U overlook_user -d overlook_hotel -c overlook_hotel.dump
 
 - Erreurs de connexion DB : vérifiez les variables d'environnement (`DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`), le service PostgreSQL et le réseau/pare-feu.
 - Conflits de ports : changez `server.port` dans `application.yml`.
-- Erreurs JWT : assurez-vous que `APP_JWT_SECRET` est défini et cohérent entre les exécutions.
+- Erreurs JWT : assurez-vous que `JWT_SECRET` est défini et cohérent entre les exécutions.
 
 ## Petits fichiers inclus dans le dépôt
 

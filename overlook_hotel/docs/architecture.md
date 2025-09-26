@@ -26,7 +26,7 @@ This document describes the repository architecture, package responsibilities, k
     src/
         main/
             java/
-                com.overlook.app/
+                com/example/overlook_hotel/
 
                 config/
                     SecurityBeansConfig.java
