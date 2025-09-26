@@ -83,8 +83,6 @@ This document describes the repository architecture, package responsibilities, k
                         Feature.java
                         RoomFeature.java
                         Reservation.java
-                        RoomStatusLog.java
-                        AuditLog.java
                 repository/
                     auth/
                         RoleRepository.java
@@ -94,7 +92,6 @@ This document describes the repository architecture, package responsibilities, k
                         FeatureRepository.java
                         RoomFeatureRepository.java
                         ReservationRepository.java
-                        RoomStatusLogRepository.java
                 service/
                     auth/
                         AuthService.java
@@ -107,8 +104,6 @@ This document describes the repository architecture, package responsibilities, k
                         FeatureService.java
                         RoomAvailabilityService.java
                         ReservationService.java
-                        ReportService.java
-                        NotificationService.java
                 util/
                     Mapper.java
                     DateUtils.java
