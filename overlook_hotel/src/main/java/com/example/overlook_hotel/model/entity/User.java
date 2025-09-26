@@ -3,9 +3,15 @@ package com.example.overlook_hotel.model.entity;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import lombok.*;
 
 @Entity
 @Table(name = "users", indexes = @Index(columnList = "email"))
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,6 +40,7 @@ public class User {
     private String profilePhotoUrl;
 
     @Column(name = "is_active") 
+    @Builder.Default
     private Boolean isActive = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -41,9 +48,11 @@ public class User {
     private Role role;
 
     @Column(name = "created_at") 
+    @Builder.Default
     private OffsetDateTime createdAt = OffsetDateTime.now();
 
     @Column(name = "updated_at") 
+    @Builder.Default
     private OffsetDateTime updatedAt = OffsetDateTime.now();
 
     @Column(name = "last_login") 
