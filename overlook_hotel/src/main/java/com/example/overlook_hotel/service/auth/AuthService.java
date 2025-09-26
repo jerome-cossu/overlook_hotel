@@ -4,6 +4,7 @@ import com.example.overlook_hotel.repository.auth.UserRepository;
 import com.example.overlook_hotel.repository.auth.RoleRepository;
 import com.example.overlook_hotel.model.entity.User;
 import com.example.overlook_hotel.model.entity.Role;
+import com.example.overlook_hotel.model.enums.RoleName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class AuthService {
         if (userRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("Email already in use");
         }
-        Role role = roleRepository.findByName("GUEST")
+        Role role = roleRepository.findByName(RoleName.GUEST)
                 .orElseThrow(() -> new IllegalStateException("Default role GUEST not found"));
 
         User user = new User();
