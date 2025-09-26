@@ -1,40 +1,38 @@
 package com.example.overlook_hotel.controller.auth;
 
-import com.example.overlook_hotel.model.entity.User;
-import com.example.overlook_hotel.service.hotel.UserService;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import com.example.overlook_hotel.dto.auth.LoginRequest;
+import com.example.overlook_hotel.dto.auth.AuthResponse;
+import com.example.overlook_hotel.dto.auth.RegisterRequest;
+import com.example.overlook_hotel.service.auth.AuthService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequiredArgsConstructor
+@RestController
+@RequestMapping("/api/auth")
 public class AuthController {
-    private final UserService userService;
 
-    @GetMapping({"/", "/index"})
-    public String home() {
-        return "index";
-    }
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
+    private final AuthService authService;
 
-    @GetMapping("/register")
-    public String registerForm(Model model) {
-        model.addAttribute("user", new User());
-        return "register";
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute User user, Model model) {
-        if (userService.findByEmail(user.getEmail()) != null) {
-            model.addAttribute("error", "Email already exists");
-            return "register";
-        }
-        userService.registerUser(user);
-        return "redirect:/login";
+    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest req) {
+        String token = authService.register(req.getEmail(), req.getPassword(), req.getFirstName(), req.getLastName());
+        AuthResponse resp = new AuthResponse();
+        resp.setToken(token);
+        resp.setUserId(null);
+        resp.setEmail(req.getEmail());
+        return ResponseEntity.ok(resp);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest req) {
+        String token = authService.login(req.getEmail(), req.getPassword());
+        AuthResponse resp = new AuthResponse();
+        resp.setToken(token);
+        resp.setEmail(req.getEmail());
+        return ResponseEntity.ok(resp);
     }
 }

@@ -1,8 +1,11 @@
 package com.example.overlook_hotel.controller.api;
+
 import com.example.overlook_hotel.model.entity.Feature;
 import com.example.overlook_hotel.service.hotel.FeatureService;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -11,7 +14,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FeatureController {
 
-    private final FeatureService featureService;
+    @Autowired
+    private FeatureService featureService;
 
     @GetMapping
     public List<Feature> getAllFeatures() {
