@@ -16,6 +16,7 @@
         <a href="#">Facility</a>
         <a href="#">Booking</a>
         <a href="#">Contact</a>
+        <a href="/customerdashboard">Dashboard</a>
         <a href="/login" class="login-btn">Login</a>
     </nav>
 </header>
@@ -47,47 +48,52 @@
 </footer>
 
 <script>
-    function togglePassword() {
-        const passwordInput = document.getElementById('password');
-        passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
-    }
+function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+}
 
-    document.getElementById("loginForm").addEventListener("submit", async function(e) {
-        e.preventDefault();
+document.getElementById("loginForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
 
-        const data = {
-            email: document.getElementById("email").value,
-            password: document.getElementById("password").value
-        };
+    const data = {
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+    };
 
-        try {
-            const response = await fetch("/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
-            });
+    try {
+        const response = await fetch("/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
 
-            if (response.ok) {
-                const result = await response.json(); 
-                localStorage.setItem("user", JSON.stringify({
-                    email: result.email,
-                    firstName: result.firstName
-                }));
-                alert("Connexion done !");
-                console.log("Login result:", result);
+        if (response.ok) {
+            const result = await response.json(); 
+            
+            localStorage.setItem("user", JSON.stringify({
+                id: result.id,
+                email: result.email,
+                firstName: result.firstName,
+                role_id: result.roleId 
+            }));
+            localStorage.setItem("token", result.token);
 
-                localStorage.setItem("token", result.token);
-
-                window.location.href = "/home";
-            } else {
-                const error = await response.json();
-                alert("Error : " + (error.message || "Incorrect email or password"));
+            if(result.roleId === 2) {
+                window.location.href = "/customerdashboard";
+            } else if(result.roleId === 1 || result.roleId === 3) {
+                window.location.href = "/employeedashboard";
             }
-        } catch (err) {
-            console.error(err);
-            alert("Network error");
+
+        } else {
+            const error = await response.json();
+            alert("Error : " + (error.message || "Incorrect email or password"));
         }
-    });
+    } catch (err) {
+        console.error(err);
+        alert("Network error");
+    }
+});
 </script>
 
 </body>

@@ -16,6 +16,7 @@
         <a href="#">Facility</a>
         <a href="#">Booking</a>
         <a href="#">Contact</a>
+        <a href="/customerdashboard">Dashboard</a>
         <a href="/login" class="login-btn">Login</a>
     </nav>
 </header>
@@ -114,7 +115,7 @@ function showDetails(room) {
                 if (res.ok) {
                     alert('Booking confirmed !');
                     closeModal();
-                    fetchRooms(); // actualiser l'affichage des chambres
+                    fetchRooms();
                 } else {
                     alert('Error while booking');
                 }

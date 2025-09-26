@@ -13,14 +13,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll()
-            )
-            .csrf(csrf -> csrf.disable());
+            .csrf(csrf -> csrf.disable())
 
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/customerdashboard/**").hasRole("CLIENT")
+                .requestMatchers("/employeedashboard/**").hasAnyRole("EMPLOYEE", "MANAGER")               
+                .requestMatchers("/login", "/register", "/home", "/", 
+                                 "/css/**", "/images/**", "/api/**", "/auth/**").permitAll()
+                .anyRequest().authenticated()
+            );
         return http.build();
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

@@ -18,5 +18,4 @@ public class OverlookHotelApplication {
         System.setProperty("SECURITY_USER_ROLE", dotenv.get("SECURITY_USER_ROLE"));
 		SpringApplication.run(OverlookHotelApplication.class, args);
 	}
-
 }

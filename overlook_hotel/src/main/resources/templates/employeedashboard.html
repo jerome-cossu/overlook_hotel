@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard - Overlook Hotel</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div id="employee-dashboard" class="dashboard">
+    <aside class="sidebar">
+        <div class="logo">DASHBOARD EMPLOYEE</div>
+        <nav>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="#">Planning</a></li>
+                <li><a href="#">Tasks</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#" class="logout" id="logout-btn">Logout</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <h1 id="welcome"></h1>
+            <p id="role-message"></p>
+        </header>
+
+        <section class="weekly-planning">
+            <table class="calendar" id="planning-table">
+                <thead>
+                    <tr>
+                        <th>Heure</th>
+                        <th>Lundi</th>
+                        <th>Mardi</th>
+                        <th>Mercredi</th>
+                        <th>Jeudi</th>
+                        <th>Vendredi</th>
+                        <th>Samedi</th>
+                        <th>Dimanche</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="8">Loading planning...</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+if(!user) {
+    window.location.href = "/login";
+}
+
+document.getElementById("welcome").textContent = `Welcome, ${user.firstName} !`;
+document.getElementById("role-message").textContent = "Voici votre planning de la semaine :";
+
+// Logout
+document.getElementById("logout-btn").addEventListener("click", (e) => {
+    e.preventDefault();
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+});
+
+async function loadEmployeeDashboard() {
+    try {
+        const res = await fetch(`/api/planning?userId=${user.id}`);
+        const planning = await res.json();
+
+        const tbody = document.querySelector("#planning-table tbody");
+        tbody.innerHTML = "";
+
+        planning.forEach(slot => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${slot.time}</td>
+                            <td>${slot.days.Lundi || ""}</td>
+                            <td>${slot.days.Mardi || ""}</td>
+                            <td>${slot.days.Mercredi || ""}</td>
+                            <td>${slot.days.Jeudi || ""}</td>
+                            <td>${slot.days.Vendredi || ""}</td>
+                            <td>${slot.days.Samedi || ""}</td>
+                            <td>${slot.days.Dimanche || ""}</td>`;
+            tbody.appendChild(tr);
+        });
+
+    } catch(err) {
+        console.error(err);
+    }
+}
+
+loadEmployeeDashboard();
+</script>
+
+</body>
+</html>

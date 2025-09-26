@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Overlook Hotel</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div id="dashboard" class="dashboard">
+    <aside class="sidebar">
+        <div class="logo">DASHBOARD CLIENT</div>
+        <nav>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="#">My Reservations</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#" class="logout" id="logout-btn">Logout</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <h1 id="welcome"></h1>
+            <p id="role-message"></p>
+        </header>
+
+        <section class="stats">
+            <div class="card">
+                <h2>Next trip</h2>
+                <p id="next-trip">Loading...</p>
+            </div>
+            <div class="card">
+                <h2>All your trips</h2>
+                <p id="total-trips">Loading...</p>
+            </div>
+            <div class="card">
+                <h2>Loyalty points</h2>
+                <p id="loyalty-points">Loading...</p>
+            </div>
+        </section>
+
+        <section class="recent-bookings">
+            <h2>Recent bookings</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rooms</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="bookings-table">
+                    <tr><td colspan="3">Loading...</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+if(!user) {
+    window.location.href = "/login";
+}
+
+document.getElementById("welcome").textContent = `Welcome, ${user.firstName} !`;
+document.getElementById("role-message").textContent = "Voici votre tableau de bord client :";
+
+// Logout
+document.getElementById("logout-btn").addEventListener("click", (e) => {
+    e.preventDefault();
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+});
+
+// Charger les données clients
+async function loadClientDashboard() {
+    try {
+        const res = await fetch(`/api/bookings?userId=${user.id}`);
+        const bookings = await res.json();
+
+        // Next trip
+        const upcoming = bookings.filter(b => new Date(b.startDate) > new Date());
+        document.getElementById("next-trip").textContent = upcoming.length > 0 ? 
+            `Room ${upcoming[0].roomNumber} - ${upcoming[0].startDate} to ${upcoming[0].endDate}` : "No upcoming trips";
+
+        // Total trips
+        document.getElementById("total-trips").textContent = bookings.length + " trips booked";
+
+        // Loyalty points (fictive example)
+        document.getElementById("loyalty-points").textContent = 1200;
+
+        // Remplir le tableau des réservations
+        const table = document.getElementById("bookings-table");
+        table.innerHTML = "";
+        bookings.forEach(b => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${b.roomNumber}</td>
+                <td>${b.startDate} au ${b.endDate}</td>
+                <td>${b.status}</td>
+            `;
+            table.appendChild(tr);
+        });
+    } catch(err) {
+        console.error(err);
+    }
+}
+
+loadClientDashboard();
+</script>
+
+</body>
+</html>
