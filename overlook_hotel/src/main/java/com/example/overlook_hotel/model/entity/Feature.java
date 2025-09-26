@@ -1,4 +1,4 @@
-package com.example.overlook_hotel.model;
+package com.example.overlook_hotel.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

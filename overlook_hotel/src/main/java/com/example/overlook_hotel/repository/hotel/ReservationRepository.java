@@ -1,7 +1,8 @@
-package com.example.overlook_hotel.repository;
+package com.example.overlook_hotel.repository.hotel;
 
-import com.example.overlook_hotel.model.Reservation;
-import com.example.overlook_hotel.model.ReservationStatus;
+import com.example.overlook_hotel.model.entity.Reservation;
+import com.example.overlook_hotel.model.enums.ReservationStatus;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

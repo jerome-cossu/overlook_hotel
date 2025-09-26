@@ -1,9 +1,11 @@
-package com.example.overlook_hotel.model;
+package com.example.overlook_hotel.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
+
+import com.example.overlook_hotel.model.enums.RoleName;
 
 @Entity
 @Table(name = "roles", indexes = {

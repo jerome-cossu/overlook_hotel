@@ -1,4 +1,4 @@
-package com.example.overlook_hotel.service;
+package com.example.overlook_hotel.service.auth;
 
 public class AuthService {
     

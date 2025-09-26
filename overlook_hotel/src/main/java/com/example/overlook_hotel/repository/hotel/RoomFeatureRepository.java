@@ -1,9 +1,10 @@
-package com.example.overlook_hotel.repository;
+package com.example.overlook_hotel.repository.hotel;
 
-import com.example.overlook_hotel.model.RoomFeature;
-import com.example.overlook_hotel.model.Room;
-import com.example.overlook_hotel.model.Feature;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.overlook_hotel.model.entity.Feature;
+import com.example.overlook_hotel.model.entity.Room;
+import com.example.overlook_hotel.model.entity.RoomFeature;
 
 import java.util.List;
 import java.util.Optional;

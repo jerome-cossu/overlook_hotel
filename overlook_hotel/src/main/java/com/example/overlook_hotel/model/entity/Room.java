@@ -52,11 +52,25 @@ public class Room {
     @Column(name = "is_accessible", nullable = false)
     private Boolean isAccessible = false;
 
+    @Builder.Default
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 
+    @Builder.Default
     @Column(name = "updated_at")
     private Instant updatedAt = Instant.now();
+
+    @PrePersist
+    protected void onCreate() {
+        Instant now = Instant.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = Instant.now();
+    }
 
     @Version
     private Integer version;

@@ -1,7 +1,8 @@
-package com.example.overlook_hotel.service;
+package com.example.overlook_hotel.service.hotel;
 
-import com.example.overlook_hotel.model.Feature;
-import com.example.overlook_hotel.repository.FeatureRepository;
+import com.example.overlook_hotel.model.entity.Feature;
+import com.example.overlook_hotel.repository.hotel.FeatureRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;

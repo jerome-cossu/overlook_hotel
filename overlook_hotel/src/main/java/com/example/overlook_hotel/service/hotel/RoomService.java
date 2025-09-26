@@ -1,7 +1,8 @@
-package com.example.overlook_hotel.service;
+package com.example.overlook_hotel.service.hotel;
 
-import com.example.overlook_hotel.model.Room;
-import com.example.overlook_hotel.repository.RoomRepository;
+import com.example.overlook_hotel.model.entity.Room;
+import com.example.overlook_hotel.repository.hotel.RoomRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

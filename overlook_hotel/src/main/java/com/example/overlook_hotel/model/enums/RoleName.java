@@ -1,4 +1,4 @@
-package com.example.overlook_hotel.model;
+package com.example.overlook_hotel.model.enums;
 
 public enum RoleName {
     GUEST,

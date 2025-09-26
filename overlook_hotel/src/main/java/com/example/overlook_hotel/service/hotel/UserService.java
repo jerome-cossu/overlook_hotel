@@ -1,9 +1,10 @@
-package com.example.overlook_hotel.service;
+package com.example.overlook_hotel.service.hotel;
 
-import com.example.overlook_hotel.model.Role;
-import com.example.overlook_hotel.model.User;
-import com.example.overlook_hotel.repository.RoleRepository;
-import com.example.overlook_hotel.repository.UserRepository;
+import com.example.overlook_hotel.model.entity.Role;
+import com.example.overlook_hotel.model.entity.User;
+import com.example.overlook_hotel.repository.auth.RoleRepository;
+import com.example.overlook_hotel.repository.auth.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.crypto.password.PasswordEncoder;

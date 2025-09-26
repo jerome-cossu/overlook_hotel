@@ -1,7 +1,8 @@
-package com.example.overlook_hotel.repository;
+package com.example.overlook_hotel.repository.auth;
 
-import com.example.overlook_hotel.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.overlook_hotel.model.entity.User;
 
 import java.util.List;
 import java.util.Optional;
