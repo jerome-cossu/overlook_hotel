@@ -27,14 +27,12 @@ This document describes the repository architecture, package responsibilities, k
         main/
             java/
                 com/example/overlook_hotel/
-
                 config/
                     SecurityBeansConfig.java
                     SecurityConfig.java
                     JwtFilter.java
                     JwtUtils.java
                     WebMvcConfig.java
-
                 controller/
                     auth/
                         AuthController.java
@@ -50,7 +48,6 @@ This document describes the repository architecture, package responsibilities, k
                         GuestController.java
                         EmployeeController.java
                         ManagerController.java
-
                 dto/
                     auth/
                         LoginRequest.java
@@ -69,51 +66,53 @@ This document describes the repository architecture, package responsibilities, k
                     report/
                         OccupancyReportDto.java
                         RevenueReportDto.java
-
                 exception/
                     ApiException.java
                     NotFoundException.java
                     ConflictException.java
                     GlobalExceptionHandler.java
-
                 model/
-                    Role.java
-                    RoleName.java
-                    User.java
-                    Room.java
-                    RoomStatus.java 
-                    Feature.java
-                    RoomFeature.java
-                    Reservation.java
-                    ReservationStatus.java
-                    RoomStatusLog.java
-                    AuditLog.java
-
+                    enums/
+                        RoleName.java
+                        RoomStatus.java
+                        ReservationStatus.java
+                    entity/
+                        User.java
+                        Role.java
+                        Room.java
+                        Feature.java
+                        RoomFeature.java
+                        Reservation.java
+                        RoomStatusLog.java
+                        AuditLog.java
                 repository/
-                    RoleRepository.java
-                    UserRepository.java
-                    RoomRepository.java
-                    FeatureRepository.java
-                    RoomFeatureRepository.java
-                    ReservationRepository.java
-                    RoomStatusLogRepository.java
-
+                    auth/
+                        RoleRepository.java
+                        UserRepository.java
+                    hotel/
+                        RoomRepository.java
+                        FeatureRepository.java
+                        RoomFeatureRepository.java
+                        ReservationRepository.java
+                        RoomStatusLogRepository.java
                 service/
-                    AuthService.java
-                    UserService.java
-                    RoomService.java
-                    FeatureService.java
-                    RoomAvailabilityService.java
-                    ReservationService.java
-                    ReportService.java
-                    NotificationService.java
-                    DataLoader.java <-- seeds demo data on dev profile
-
+                    auth/
+                        AuthService.java
+                        JwtService.java
+                        PasswordResetService.java
+                        DataLoader.java <-- seeds demo data on dev profile
+                    hotel/
+                        UserService.java
+                        RoomService.java
+                        FeatureService.java
+                        RoomAvailabilityService.java
+                        ReservationService.java
+                        ReportService.java
+                        NotificationService.java
                 util/
                     Mapper.java
                     DateUtils.java
                     ValidationUtils.java
-
         resources/
             templates/
                 index.html
