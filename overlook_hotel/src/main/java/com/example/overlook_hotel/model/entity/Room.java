@@ -45,6 +45,31 @@ public class Room {
     private Integer version = 1;
 
     // getters/setters
+    public Long getId() {
+        return id;
+    }
+    public String getRoomNumber() {
+        return roomNumber;
+    }
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+    public String getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
+    }
+
+    public BigDecimal getBasePrice() { 
+        return basePrice; 
+    }
+
+    public void setBasePrice(BigDecimal basePrice) { 
+        this.basePrice = basePrice;
+    }
+
     public String getDescription() {
         return description;
     }

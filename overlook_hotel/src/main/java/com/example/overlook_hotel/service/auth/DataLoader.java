@@ -194,7 +194,7 @@ public class DataLoader implements CommandLineRunner {
         r.setCheckOutDate(checkOut);
         r.setGuestsCount(guests);
         r.setTotalPrice(totalPrice);
-        r.setStatus("BOOKED");
+        r.setStatus(ReservationStatus.BOOKED);
         reservationRepo.save(r);
         log.info("Created reservation for {} in room {} from {} to {}", guestEmail, roomNumber, checkIn, checkOut);
     }

@@ -2,7 +2,7 @@ package com.example.overlook_hotel.dto.reservation;
 
 import java.time.LocalDate;
 
-public class CreateReservationRequest {
+public class CreateReservationDto {
     private Long roomId;
     private Long userId; // optional if creating as guest
     private String leadGuestName;

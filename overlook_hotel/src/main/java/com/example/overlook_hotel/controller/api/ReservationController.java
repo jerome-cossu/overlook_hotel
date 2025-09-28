@@ -1,62 +1,46 @@
 package com.example.overlook_hotel.controller.api;
 
+import com.example.overlook_hotel.dto.reservation.AvailabilityRequest;
 import com.example.overlook_hotel.dto.reservation.CreateReservationRequest;
 import com.example.overlook_hotel.dto.reservation.ReservationDto;
-import com.example.overlook_hotel.dto.reservation.CancelReservationRequest;
-import com.example.overlook_hotel.model.entity.Reservation;
 import com.example.overlook_hotel.service.hotel.ReservationService;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.stream.Collectors;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/reservations")
 public class ReservationController {
 
-    @Autowired
-    private ReservationService reservationService;
+    private final ReservationService reservationService;
+
+    public ReservationController(ReservationService reservationService) {
+        this.reservationService = reservationService;
+    }
+
+    @PostMapping("/availability")
+    public ResponseEntity<List<?>> findAvailableRooms(@RequestBody AvailabilityRequest req) {
+        var rooms = reservationService.findAvailableRooms(req);
+        return ResponseEntity.ok(rooms); // map to Room DTO if needed
+    }
 
     @PostMapping
-    public ResponseEntity<ReservationDto> create(@RequestBody CreateReservationRequest req) {
-        Reservation r = reservationService.createReservation(
-            req.getRoomId(),
-            req.getUserId(),
-            req.getLeadGuestName(),
-            req.getLeadGuestPhone(),
-            req.getCheckInDate(),
-            req.getCheckOutDate(),
-            req.getGuestsCount()
-        );
-        return ResponseEntity.ok(toDto(r));
+    public ResponseEntity<ReservationDto> create(@RequestBody CreateReservationRequest dto) {
+        var created = reservationService.createReservation(dto);
+        return ResponseEntity.status(201).body(created);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<ReservationDto>> byUser(@PathVariable Long userId) {
-        List<Reservation> list = reservationService.findByUserId(userId);
-        return ResponseEntity.ok(list.stream().map(this::toDto).collect(Collectors.toList()));
+    @GetMapping("/{id}")
+    public ResponseEntity<ReservationDto> get(@PathVariable Long id) {
+        return ResponseEntity.ok(reservationService.getById(id));
     }
 
-    @PostMapping("/cancel")
-    public ResponseEntity<ReservationDto> cancel(@RequestBody CancelReservationRequest req) {
-        Reservation r = reservationService.cancelReservation(req.getReservationId(), req.getReason());
-        return ResponseEntity.ok(toDto(r));
-    }
-
-    private ReservationDto toDto(Reservation r) {
-        ReservationDto d = new ReservationDto();
-        d.setId(r.getId());
-        d.setUserId(r.getUser() == null ? null : r.getUser().getId());
-        d.setRoomId(r.getRoom().getId());
-        d.setLeadGuestName(r.getLeadGuestName());
-        d.setLeadGuestPhone(r.getLeadGuestPhone());
-        d.setCheckInDate(r.getCheckInDate());
-        d.setCheckOutDate(r.getCheckOutDate());
-        d.setGuestsCount(r.getGuestsCount());
-        d.setTotalPrice(r.getTotalPrice());
-        d.setStatus(r.getStatus() == null ? null : r.getStatus().name());
-        d.setSpecialRequests(r.getSpecialRequests());
-        return d;
+    @PostMapping("/{id}/cancel")
+    public ResponseEntity<ReservationDto> cancel(@PathVariable Long id, @RequestParam Long userId) {
+        // change this to get userId from JWT / security context
+        var cancelled = reservationService.cancelReservation(id, userId);
+        return ResponseEntity.ok(cancelled);
     }
 }
