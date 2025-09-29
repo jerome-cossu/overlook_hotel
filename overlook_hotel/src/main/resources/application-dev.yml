@@ -1,9 +1,11 @@
 spring:
   jpa:
     hibernate:
-      # For local development: create schema at startup and drop on shutdown.
-      # Alternatives: 'create' (create once), 'update' (migrate schema — use with caution).
-      ddl-auto: create-drop
+  # For local development: if the schema is missing some new tables, 'update'
+  # will create missing tables/columns. This is convenient for local dev but
+  # should NOT be used in production. If you prefer strict checks, use
+  # 'validate' and apply db/schema.sql manually.
+  ddl-auto: update
   datasource:
     # Optional: allow overriding host/port for dev via env vars
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/overlook_hotel
