@@ -4,6 +4,8 @@ import lombok.*;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class CancelReservationRequest {
+    
     private Long reservationId;
     private String reason;
+
 }

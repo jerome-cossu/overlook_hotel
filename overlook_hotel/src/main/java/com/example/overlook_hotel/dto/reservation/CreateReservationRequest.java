@@ -1,12 +1,14 @@
 package com.example.overlook_hotel.dto.reservation;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter @Setter
 public class CreateReservationRequest {
+    
     public Long userId;
     public Long roomId;
     public String leadGuestName;

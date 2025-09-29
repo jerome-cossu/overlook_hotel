@@ -2,14 +2,11 @@ package com.example.overlook_hotel.dto.reservation;
 
 import java.time.LocalDate;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class AvailabilityRequest {
+    
     public LocalDate checkInDate;
     public LocalDate checkOutDate;
     public Integer capacity;
