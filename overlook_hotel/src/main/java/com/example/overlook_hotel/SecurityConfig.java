@@ -19,7 +19,7 @@ public class SecurityConfig {
                 .requestMatchers("/customerdashboard/**").permitAll()
                 .requestMatchers("/employeedashboard/**").permitAll()               
                 .requestMatchers("/login", "/register", "/home", "/",
-                                 "/css/**", "/images/**", "/api/**", "/auth/**").permitAll()
+                                 "/css/**", "/images/**", "/api/**", "/auth/**","/rooms/**").permitAll()
                 .anyRequest().authenticated()
             );
         return http.build();
