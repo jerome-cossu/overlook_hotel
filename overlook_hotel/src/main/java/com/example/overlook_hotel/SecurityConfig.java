@@ -16,9 +16,9 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
 
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/customerdashboard/**").hasRole("CLIENT")
-                .requestMatchers("/employeedashboard/**").hasAnyRole("EMPLOYEE", "MANAGER")               
-                .requestMatchers("/login", "/register", "/home", "/", 
+                .requestMatchers("/customerdashboard/**").permitAll()
+                .requestMatchers("/employeedashboard/**").permitAll()               
+                .requestMatchers("/login", "/register", "/home", "/",
                                  "/css/**", "/images/**", "/api/**", "/auth/**").permitAll()
                 .anyRequest().authenticated()
             );
