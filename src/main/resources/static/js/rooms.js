@@ -72,7 +72,7 @@ function showDetails(room) {
                 if (res.ok) {
                     alert('Booking confirmed !');
                     closeModal();
-                    fetchRooms(); // actualiser l'affichage des chambres
+                    fetchRooms(); // refresh the room display
                 } else {
                     alert('Error while booking');
                 }
