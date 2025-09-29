@@ -88,6 +88,16 @@ CREATE INDEX idx_room_features_room_id ON room_features(room_id);
 CREATE INDEX idx_room_features_feature_id ON room_features(feature_id);
 CREATE INDEX idx_users_email ON users(email);
 
+-- Password reset tokens table used by the password reset feature
+CREATE TABLE password_reset_tokens (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  token TEXT NOT NULL UNIQUE,
+  expires_at TIMESTAMPTZ NOT NULL,
+  used BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
 -- Simple trigger to bump version and updated_at on update 
 -- for optimistic locking (prevent double booking) and audit
 -- Applies to users, rooms, reservations
