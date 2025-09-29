@@ -61,5 +61,4 @@ public class Room {
     @Column(name = "version")
     private Integer version = 1;
     
-    //TODO: map features via room_features join table to load features
 }
