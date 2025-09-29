@@ -22,7 +22,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         });
 
         if (response.ok) {
-            alert("Signing up done !");
+            alert("Registration successful!");
             window.location.href = "/login";
         } else {
             const error = await response.json();
@@ -30,6 +30,6 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         }
     } catch (err) {
         console.error(err);
-        alert("An error occured.");
+        alert("An error occurred.");
     }
 });
