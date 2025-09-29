@@ -2,6 +2,7 @@ package com.example.overlook_hotel.repository.hotel;
 
 import com.example.overlook_hotel.model.entity.Room;
 import com.example.overlook_hotel.model.enums.RoomStatus;
+import com.example.overlook_hotel.model.enums.ReservationStatus;
 
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
@@ -23,7 +24,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
           SELECT 1 FROM Reservation res
           WHERE res.room = r
             AND res.status IN :activeStatuses
-            AND NOT (res.check_out_date <= :start OR res.check_in_date >= :end)
+            AND NOT (res.checkOutDate <= :start OR res.checkInDate >= :end)
         )
       """)
     List<Room> findAvailable(
@@ -31,7 +32,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
       @Param("end") LocalDate end,
       @Param("capacity") Integer capacity,
       @Param("roomType") String roomType,
-      @Param("activeStatuses") List<RoomStatus> activeStatuses
+      @Param("activeStatuses") List<ReservationStatus> activeStatuses
     );
 
     Optional<Room> findByRoomNumber(String roomNumber);

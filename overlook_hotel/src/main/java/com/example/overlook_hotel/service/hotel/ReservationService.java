@@ -3,7 +3,6 @@ package com.example.overlook_hotel.service.hotel;
 import com.example.overlook_hotel.dto.reservation.ReservationDto;
 import com.example.overlook_hotel.model.entity.Reservation;
 import com.example.overlook_hotel.model.entity.Room;
-import com.example.overlook_hotel.model.enums.RoomStatus;
 import com.example.overlook_hotel.model.enums.ReservationStatus;
 import com.example.overlook_hotel.repository.hotel.ReservationRepository;
 import com.example.overlook_hotel.repository.hotel.RoomRepository;
@@ -26,7 +25,6 @@ public class ReservationService {
 
     // statuses considered blocking availability
     private static final List<ReservationStatus> RESERVATION_ACTIVE_STATUSES = List.of(ReservationStatus.BOOKED, ReservationStatus.CHECKED_IN);
-    private static final List<RoomStatus> ROOM_ACTIVE_STATUSES = List.of(RoomStatus.AVAILABLE);
 
     public ReservationService(ReservationRepository reservationRepository,
                               RoomRepository roomRepository,
@@ -41,7 +39,7 @@ public class ReservationService {
             req.getCheckOutDate(),
             req.getCapacity(),
             req.getRoomType(),
-            ROOM_ACTIVE_STATUSES
+            RESERVATION_ACTIVE_STATUSES
         );
     }
 
