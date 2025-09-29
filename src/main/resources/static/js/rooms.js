@@ -8,7 +8,7 @@ async function fetchRooms() {
         const rooms = await res.json();
         displayRooms(rooms);
     } catch (err) {
-        container.innerHTML = '<p>Unable to log the rooms.</p>';
+        container.innerHTML = '<p>Unable to load the rooms.</p>';
         console.error(err);
     }
 }
