@@ -24,7 +24,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
                 email: result.email,
                 firstName: result.firstName
             }));
-            alert("Connexion done !");
+            alert("Connection successful!");
             console.log("Login result:", result);
 
             localStorage.setItem("token", result.token);
