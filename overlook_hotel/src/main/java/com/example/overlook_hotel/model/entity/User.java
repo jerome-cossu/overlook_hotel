@@ -1,19 +1,19 @@
 package com.example.overlook_hotel.model.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import lombok.*;
+
+import java.time.LocalDate;
+import java.time.Instant;
+
 
 @Entity
 @Table(name = "users", indexes = @Index(columnList = "email"))
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class User {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -49,26 +49,17 @@ public class User {
 
     @Column(name = "created_at") 
     @Builder.Default
-    private OffsetDateTime createdAt = OffsetDateTime.now();
+    private Instant createdAt = Instant.now();
 
     @Column(name = "updated_at") 
     @Builder.Default
-    private OffsetDateTime updatedAt = OffsetDateTime.now();
+    private Instant updatedAt = Instant.now();
 
     @Column(name = "last_login") 
-    private OffsetDateTime lastLogin;
+    private Instant lastLogin;
 
     @Version
     @Column(name = "version")
     private Integer version;
 
-    // getters/setters
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 }

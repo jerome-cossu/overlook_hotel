@@ -1,6 +1,7 @@
 package com.example.overlook_hotel.model.entity;
 
 import com.example.overlook_hotel.model.enums.ReservationStatus;
+
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
@@ -37,13 +38,16 @@ public class Reservation {
     private LocalDate checkOutDate;
 
     @Column(name = "guests_count")
+    @Builder.Default
     private Integer guestsCount = 1;
 
     @Column(name = "total_price", precision = 10, scale = 2)
+    @Builder.Default
     private BigDecimal totalPrice = BigDecimal.ZERO;
 
     @Enumerated(EnumType.STRING)
     @Column(name="status", length=32, nullable=false)
+    @Builder.Default
     private ReservationStatus status = ReservationStatus.BOOKED;
 
     @Column(name = "special_requests", columnDefinition = "text")

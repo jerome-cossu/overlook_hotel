@@ -1,12 +1,17 @@
 package com.example.overlook_hotel.model.entity;
 
 import jakarta.persistence.*;
-import java.time.OffsetDateTime;
+import lombok.*;
+
+import java.time.Instant;
 
 @Entity
 @Table(name = "room_features", uniqueConstraints = @UniqueConstraint(columnNames = {"room_id","feature_id"}))
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class RoomFeature {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -18,48 +23,9 @@ public class RoomFeature {
     private Feature feature;
 
     @Column(name = "added_at") 
-    private OffsetDateTime addedAt = OffsetDateTime.now();
+    @Builder.Default
+    private Instant addedAt = Instant.now();
 
     private String source;
 
-    // getters/setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
-
-    public Feature getFeature() {
-        return feature;
-    }
-
-    public void setFeature(Feature feature) {
-        this.feature = feature;
-    }
-
-    public OffsetDateTime getAddedAt() {
-        return addedAt;
-    }
-
-    public void setAddedAt(OffsetDateTime addedAt) {
-        this.addedAt = addedAt;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
 }
