@@ -25,6 +25,7 @@ public class BookingController {
     public List<Booking> getAllBookings() {
         return bookingService.getAllBookings();
     }
+
     @PostMapping("/reserve/{roomId}")
     public String reserveRoom(
             @PathVariable Long roomId,

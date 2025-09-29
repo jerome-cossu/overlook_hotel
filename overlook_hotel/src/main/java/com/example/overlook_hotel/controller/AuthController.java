@@ -31,21 +31,25 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @jakarta.validation.Valid RegisterRequest request) {
+        // Call the service layer to handle registration logic
         User user = userService.register(request);
-        return ResponseEntity.ok("User created : " + user.getEmail());
+        return ResponseEntity.ok("User created: " + user.getEmail());
     }
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest request) {
+        // Retrieve user by email, throw an exception if not found
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        // Check if the provided password matches the stored hashed password
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Incorrect Password");
         }
 
+        // Prepare response with user info (without sending password)
         Map<String, String> response = new HashMap<>();
-        response.put("message", "connexion done");
+        response.put("message", "login successful");
         response.put("email", user.getEmail());
         response.put("lastName", user.getLastName());
         response.put("firstName", user.getFirstName());
