@@ -4,7 +4,6 @@ import com.example.overlook_hotel.dto.reservation.ReservationDto;
 import com.example.overlook_hotel.model.entity.Reservation;
 import com.example.overlook_hotel.model.entity.Room;
 import com.example.overlook_hotel.model.enums.RoomStatus;
-import com.example.overlook_hotel.model.entity.User;
 import com.example.overlook_hotel.model.enums.ReservationStatus;
 import com.example.overlook_hotel.repository.hotel.ReservationRepository;
 import com.example.overlook_hotel.repository.hotel.RoomRepository;

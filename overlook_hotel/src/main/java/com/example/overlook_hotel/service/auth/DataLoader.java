@@ -61,16 +61,16 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void createRoles() {
-        Map<String, String> roles = Map.of(
-                "GUEST", "Hotel guest / customer",
-                "EMPLOYEE", "Hotel staff",
-                "MANAGER", "Hotel manager / admin"
+        Map<RoleName, String> roles = Map.of(
+                RoleName.MANAGER, "Hotel Manager - full access",
+                RoleName.EMPLOYEE, "Hotel Employee - manage reservations and rooms",
+                RoleName.GUEST, "Guest User - book and manage own reservations"
         );
 
-        roles.forEach((name, desc) -> {
-            roleRepo.findByName(name).orElseGet(() -> {
+        roles.forEach((roleName, desc) -> {
+            roleRepo.findByName(roleName).orElseGet(() -> {
                 Role r = new Role();
-                r.setName(name);
+                r.setName(roleName);
                 r.setDescription(desc);
                 Role saved = roleRepo.save(r);
                 log.info("Created role {}", saved.getName());
@@ -83,13 +83,13 @@ public class DataLoader implements CommandLineRunner {
         // plaintext passwords for demo accounts
         String demoPassword = "Password123!";
 
-        createUserIfMissing("manager@overlook.test", "manager", "Manager", "Overlook", "MANAGER", demoPassword);
-        createUserIfMissing("employee@overlook.test", "employee", "Employee", "Overlook", "EMPLOYEE", demoPassword);
-        createUserIfMissing("guest1@overlook.test", "guest1", "Guest", "One", "GUEST", demoPassword);
-        createUserIfMissing("guest2@overlook.test", "guest2", "Guest", "Two", "GUEST", demoPassword);
+        createUserIfMissing("manager@overlook.test", "manager", "Manager", "Overlook", RoleName.MANAGER, demoPassword);
+        createUserIfMissing("employee@overlook.test", "employee", "Employee", "Overlook", RoleName.EMPLOYEE, demoPassword);
+        createUserIfMissing("guest1@overlook.test", "guest1", "Guest", "One", RoleName.GUEST, demoPassword);
+        createUserIfMissing("guest2@overlook.test", "guest2", "Guest", "Two", RoleName.GUEST, demoPassword);
     }
 
-    private void createUserIfMissing(String email, String username, String firstName, String lastName, String roleName, String plainPassword) {
+    private void createUserIfMissing(String email, String username, String firstName, String lastName, RoleName roleName, String plainPassword) {
         userRepo.findByEmail(email).orElseGet(() -> {
             Role role = roleRepo.findByName(roleName).orElseThrow();
             User u = new User();
@@ -143,7 +143,7 @@ public class DataLoader implements CommandLineRunner {
             r.setBasePrice(price);
             r.setFloorNumber(floor);
             r.setIsAccessible(accessible);
-            r.setStatus("AVAILABLE");
+            r.setStatus(RoomStatus.AVAILABLE);
             Room saved = roomRepo.save(r);
 
             // attach features

@@ -3,14 +3,20 @@ package com.example.overlook_hotel.model.entity;
 import com.example.overlook_hotel.model.enums.RoomStatus;
 
 import jakarta.persistence.*;
+import lombok.Setter;
+
+import lombok.*;
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
 @Table(name = "rooms")
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Room {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "room_number", nullable = false, unique = true)
@@ -35,54 +41,13 @@ public class Room {
     private Set<RoomFeature> roomFeatures;
 
     @Column(name = "created_at") 
-    private OffsetDateTime createdAt = OffsetDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "updated_at") 
-    private OffsetDateTime updatedAt = OffsetDateTime.now();
-    
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
     @Version
     @Column(name = "version")
-    private Integer version = 1;
-
-    // getters/setters
-    public Long getId() {
-        return id;
-    }
-    public String getRoomNumber() {
-        return roomNumber;
-    }
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
-    }
-    public String getRoomType() {
-        return roomType;
-    }
-
-    public void setRoomType(String roomType) {
-        this.roomType = roomType;
-    }
-
-    public BigDecimal getBasePrice() { 
-        return basePrice; 
-    }
-
-    public void setBasePrice(BigDecimal basePrice) { 
-        this.basePrice = basePrice;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
-    }
+    private Integer version;
+    
 }
