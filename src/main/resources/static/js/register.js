@@ -30,6 +30,6 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         }
     } catch (err) {
         console.error(err);
-        alert("An error occured.");
+        alert("An error occurred.");
     }
 });
