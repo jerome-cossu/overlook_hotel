@@ -25,6 +25,7 @@
 <div class="banner"></div>
 
 <div class="section about">
+    <a href="#" onclick="test()">Test</a>
     <h2>ABOUT US</h2>
     <p>Discover the comfort, luxury, and impeccable service of our hotel. Enjoy elegant rooms, modern facilities, and a unique experience.</p>
     <p>You can simply come and spend a few days relaxing in an absolutely stunning setting. You can also celebrate the most important events of your life, such as weddings, birthdays, baptisms, and more.</p>
@@ -52,6 +53,7 @@
             <p>Price: €100 / night</p>
         </div>
     </div>
+    <div id="test-permission"></div>
 </div>
 
 <footer>
@@ -60,7 +62,7 @@
 
 <script>
     const user = JSON.parse(localStorage.getItem("user"));
-
+    
     if (user) {
         const nav = document.querySelector("nav");
         const loginBtn = nav.querySelector(".login-btn");
@@ -74,6 +76,14 @@
         localStorage.removeItem("token");
 
         window.location.href = "/login";
+    }
+    function test() {
+           if (Number(user.roleId) === 2) { 
+            const container = document.getElementById("test-permission");
+            const msg = document.createElement("h3");
+            msg.textContent = "Ça marche !";
+            container.appendChild(msg);
+        }
     }
 </script>
 

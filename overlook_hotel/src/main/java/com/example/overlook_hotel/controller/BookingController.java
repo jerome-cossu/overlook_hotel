@@ -31,9 +31,6 @@ public class BookingController {
             @RequestParam("checkIn") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
             @RequestParam("checkOut") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut) {
 
-    
-    
-
         return "redirect:/rooms/" + roomId;
     }
 }
