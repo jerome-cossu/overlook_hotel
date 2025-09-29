@@ -31,4 +31,22 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     // list reservations for user in period
     List<Reservation> findByUserIdAndCheckInDateBetween(Long userId, LocalDate start, LocalDate end);
 
+    // reservations that include the given date and have one of the provided statuses
+    @Query("""
+      SELECT r FROM Reservation r
+      WHERE :date >= r.checkInDate AND :date < r.checkOutDate
+        AND r.status IN :statuses
+    """)
+    List<Reservation> findReservationsForDate(@Param("date") LocalDate date,
+                                             @Param("statuses") List<ReservationStatus> statuses);
+
+    // convenience for 'active' reservations (booked, checked_in)
+    @Query("""
+      SELECT r FROM Reservation r
+      WHERE :date >= r.checkInDate AND :date < r.checkOutDate
+        AND r.status IN :activeStatuses
+    """)
+    List<Reservation> findActiveReservationsForDate(@Param("date") LocalDate date,
+                                                   @Param("activeStatuses") List<ReservationStatus> activeStatuses);
+
 }

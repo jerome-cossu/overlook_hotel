@@ -2,35 +2,30 @@ package com.example.overlook_hotel.service.auth;
 
 import com.example.overlook_hotel.model.entity.User;
 import com.example.overlook_hotel.repository.auth.UserRepository;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.overlook_hotel.config.CustomUserPrincipal;
 
-import java.util.Collections;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.*;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserDetailsServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
-    public UserDetails loadUserByUsername(String emailOrUsername) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(emailOrUsername)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found: " + emailOrUsername));
+    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(usernameOrEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        var authorities = Collections.singletonList(
-            new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + user.getRole().getName())
-        );
+        var authorities = List.of(new SimpleGrantedAuthority("ROLE_" + (user.getRole() != null ? user.getRole().getName() : "GUEST")));
 
-        return new org.springframework.security.core.userdetails.User(
-            user.getEmail(),
-            user.getPasswordHash(),
-            user.getIsActive(),
-            true, true, true,
-            authorities
-        );
+        return new CustomUserPrincipal(user.getId(), user.getEmail(), user.getPasswordHash(), authorities, Boolean.TRUE.equals(user.getIsActive()));
     }
 }

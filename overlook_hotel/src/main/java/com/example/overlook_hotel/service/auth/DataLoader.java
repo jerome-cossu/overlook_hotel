@@ -150,7 +150,11 @@ public class DataLoader implements CommandLineRunner {
             for (String code : featureCodes) {
                 Feature f = featureRepo.findByCode(code).orElseThrow();
                 // avoid duplicates
-                if (roomFeatureRepo.existsByRoomIdAndFeatureId(saved.getId(), f.getId())) continue;
+                boolean alreadyAttached = roomFeatureRepo.findAll().stream()
+                        .anyMatch(rf -> rf.getRoom() != null && rf.getFeature() != null
+                                && Objects.equals(rf.getRoom().getId(), saved.getId())
+                                && Objects.equals(rf.getFeature().getId(), f.getId()));
+                if (alreadyAttached) continue;
                 RoomFeature rf = new RoomFeature();
                 rf.setRoom(saved);
                 rf.setFeature(f);
@@ -179,7 +183,11 @@ public class DataLoader implements CommandLineRunner {
         User user = userOpt.get();
         Room room = roomOpt.get();
 
-        boolean exists = reservationRepo.existsByUserIdAndRoomIdAndCheckInDate(user.getId(), room.getId(), checkIn);
+        boolean exists = reservationRepo.findAll().stream()
+                .anyMatch(rr -> rr.getUser() != null && rr.getRoom() != null
+                        && Objects.equals(rr.getUser().getId(), user.getId())
+                        && Objects.equals(rr.getRoom().getId(), room.getId())
+                        && Objects.equals(rr.getCheckInDate(), checkIn));
         if (exists) {
             log.info("Reservation for user {} room {} on {} already exists, skipping", guestEmail, roomNumber, checkIn);
             return;

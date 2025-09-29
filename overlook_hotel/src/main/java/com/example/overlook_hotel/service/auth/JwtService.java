@@ -1,23 +1,35 @@
 package com.example.overlook_hotel.service.auth;
 
+import com.example.overlook_hotel.config.CustomUserPrincipal;
 import com.example.overlook_hotel.config.JwtUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Map;
 
 @Service
 public class JwtService {
-    @Autowired
+
     private JwtUtils jwtUtils;
 
-    public String generateToken(String username) {
-        return jwtUtils.generateToken(username);
+    public JwtService(JwtUtils jwtUtils) {
+        this.jwtUtils = jwtUtils;
     }
 
-    public boolean validateToken(String token) {
-        return jwtUtils.validate(token);
+    public String generateToken(CustomUserPrincipal principal) {
+    return jwtUtils.generateTokenWithClaims(principal.getUsername(),
+        Map.of("uid", String.valueOf(principal.getId())));
     }
 
-    public String getUsernameFromToken(String token) {
-        return jwtUtils.getUsername(token);
+    public boolean validateToken(String token) { 
+        return jwtUtils.validate(token); 
+    }
+
+    public String getUsernameFromToken(String token) { 
+        return jwtUtils.getUsername(token); 
+    }
+
+    public Long getUserIdFromToken(String token) {
+        String uid = jwtUtils.getClaim(token, "uid");
+        return uid != null ? Long.valueOf(uid) : null;
     }
 }

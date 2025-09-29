@@ -5,25 +5,32 @@ import com.example.overlook_hotel.repository.auth.RoleRepository;
 import com.example.overlook_hotel.model.entity.User;
 import com.example.overlook_hotel.model.entity.Role;
 import com.example.overlook_hotel.model.enums.RoleName;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import com.example.overlook_hotel.config.CustomUserPrincipal;
+
 @Service
 public class AuthService {
 
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
     private RoleRepository roleRepository;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private JwtService jwtService;
+
+    public AuthService(UserRepository userRepository,
+                       RoleRepository roleRepository,
+                       PasswordEncoder passwordEncoder,
+                       JwtService jwtService) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
+    }
 
     @Transactional
     public String register(String email, String rawPassword, String firstName, String lastName) {
@@ -41,7 +48,10 @@ public class AuthService {
         user.setRole(role);
         userRepository.save(user);
 
-        return jwtService.generateToken(user.getEmail());
+    // build principal and generate token via JwtService
+    var authorities = List.of(new SimpleGrantedAuthority("ROLE_" + (role != null ? role.getName() : "GUEST")));
+    var principal = new CustomUserPrincipal(user.getId(), user.getEmail(), null, authorities, Boolean.TRUE.equals(user.getIsActive()));
+    return jwtService.generateToken(principal);
     }
 
     public String login(String email, String rawPassword) {
@@ -52,6 +62,8 @@ public class AuthService {
             throw new IllegalArgumentException("Invalid credentials");
         }
 
-        return jwtService.generateToken(user.getEmail());
+    var authorities = List.of(new SimpleGrantedAuthority("ROLE_" + (user.getRole() != null ? user.getRole().getName() : "GUEST")));
+    var principal = new CustomUserPrincipal(user.getId(), user.getEmail(), null, authorities, Boolean.TRUE.equals(user.getIsActive()));
+    return jwtService.generateToken(principal);
     }
 }
