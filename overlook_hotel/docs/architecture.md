@@ -32,6 +32,7 @@ This document describes the repository architecture, package responsibilities, k
                     SecurityConfig.java
                     JwtFilter.java
                     JwtUtils.java
+                    CustomUserPrinciple.java
                     WebMvcConfig.java
                 controller/
                     auth/
@@ -85,6 +86,7 @@ This document describes the repository architecture, package responsibilities, k
                         Reservation.java
                 repository/
                     auth/
+                        PasswordResetTokenRepository.java
                         RoleRepository.java
                         UserRepository.java
                     hotel/
@@ -96,14 +98,15 @@ This document describes the repository architecture, package responsibilities, k
                     auth/
                         AuthService.java
                         JwtService.java
+                        UserDetailsServiceImpl.java
                         PasswordResetService.java
                         DataLoader.java <-- seeds demo data on dev profile
                     hotel/
                         UserService.java
                         RoomService.java
                         FeatureService.java
-                        RoomAvailabilityService.java
                         ReservationService.java
+                        ReportService.java
                 util/
                     Mapper.java
                     DateUtils.java
@@ -264,6 +267,26 @@ Services contain business rules and transactions. Controllers do not hold transa
         rooms: number unique index
         reservations: index on (room_id, start_date, end_date)
     Reservation entity includes @Version (optimistic locking).
+
+Developer setup & DB ownership (local dev)
+    When running in the `dev` profile the application may use `spring.jpa.hibernate.ddl-auto: create-drop` (see `application-dev.yml`) so Hibernate can create/drop the schema automatically.
+
+    If you encounter startup errors such as "ERROR: must be owner of table ..." it means the configured DB user does not own existing tables. Options to resolve locally:
+
+    - Recreate the database and set the owner to the application user (recommended for local development):
+
+        dropdb overlook_hotel
+        createdb -O overlook_user overlook_hotel
+
+    - Change ownership of existing schema/tables (requires superuser access):
+
+        psql -d overlook_hotel -c "ALTER SCHEMA public OWNER TO overlook_user;"
+        # or for individual tables:
+        psql -d overlook_hotel -c "ALTER TABLE room_features OWNER TO overlook_user;"
+
+    - Safer alternative: switch `ddl-auto` to `validate` and apply `db/schema.sql` + `db/seed-data.sql` (or use Flyway/Liquibase) to manage schema and seed data.
+
+    The `scripts/seed-db.sh` helper can be used to load `db/seed-data.sql` into a fresh database.
 
 ### Preventing double-booking (concrete flow)
 
